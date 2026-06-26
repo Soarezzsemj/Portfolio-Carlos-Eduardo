@@ -21,7 +21,7 @@ Atualmente, meu stack principal inclui:
 
 ## 🌐 Acesse Meu Portfólio
 Você pode conferir meu projeto publicado aqui:
-👉 **[soarezzsemj.github.io/portfolio-oficial/](https://soarezzsemj.github.io/Portfolio-Carlos-Eduardo/)**
+👉 **[soarezzsemj.github.io/Portfolio-Carlos-Eduardo/](https://soarezzsemj.github.io/Portfolio-Carlos-Eduardo/)**
 
 ---
 *Documentação mantida com foco em organização e boas práticas.*
