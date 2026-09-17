@@ -1,50 +1,56 @@
 :root {
-  --bg-primary: #0F1115;
-  --bg-secondary: #1A1D24;
-  --bg-tertiary: #232730;
-  --border-subtle: #2E323C;
-  --text-primary: #F1F1EF;
-  --text-secondary: #9CA3AF;
-  --accent: #E8944A;
-  --accent-hover: #F4A860;
-  --accent-muted: rgba(232,148,74,0.12);
+  --bg-primary: #0A0A0C;
+  --bg-secondary: #111318;
+  --bg-terminal: #0D1117;
+  --border-subtle: #22252B;
+  --text-primary: #E6E6E6;
+  --text-secondary: #7D8590;
+  --accent-green: #39D353;
+  --accent-cyan: #56D4DD;
+  --accent-purple: #C792EA;
+  --accent-orange: #F78C6C;
+  --accent: var(--accent-green);
+  --accent-hover: #63E879;
   --bg: var(--bg-primary);
   --surface: var(--bg-secondary);
-  --primary: var(--accent);
-  --primary-hover: var(--accent-hover);
+  --primary: var(--accent-green);
+  --primary-hover: #63E879;
   --text: var(--text-primary);
   --muted: var(--text-secondary);
   --border: var(--border-subtle);
-  --gradient-start: #1A1D24;
-  --gradient-end: #0F1115;
-  --card-bg-1: #15181e;
-  --card-bg-2: #7d4828;
-  --card-bg-3: #C9762F;
-  --heading-font: "Space Grotesk", sans-serif;
+  --gradient-start: #111318;
+  --gradient-end: #0A0A0C;
+  --card-bg-1: #0D1117;
+  --card-bg-2: #182C20;
+  --card-bg-3: #216E39;
+  --heading-font: "JetBrains Mono", monospace;
 }
 
 [data-theme="light"] {
-  --bg-primary: #F5F1EA;
-  --bg-secondary: #FFFDF9;
-  --bg-tertiary: #EDE7DE;
-  --border-subtle: #D6CEC3;
-  --text-primary: #24262B;
-  --text-secondary: #5E636D;
-  --accent: #C9762F;
-  --accent-hover: #A85F24;
-  --accent-muted: rgba(201,118,47,0.12);
+  --bg-primary: #F3F4F6;
+  --bg-secondary: #FFFFFF;
+  --bg-terminal: #F8FAFC;
+  --border-subtle: #D1D5DB;
+  --text-primary: #1F2937;
+  --text-secondary: #4B5563;
+  --accent-green: #16803A;
+  --accent-cyan: #087F8C;
+  --accent-purple: #7C3AED;
+  --accent-orange: #C2412D;
+  --accent: var(--accent-green);
+  --accent-hover: #11652F;
   --bg: var(--bg-primary);
   --surface: var(--bg-secondary);
-  --primary: var(--accent);
-  --primary-hover: var(--accent-hover);
+  --primary: var(--accent-green);
+  --primary-hover: #11652F;
   --text: var(--text-primary);
   --muted: var(--text-secondary);
   --border: var(--border-subtle);
-  --gradient-start: #FFFDF9;
-  --gradient-end: #F5F1EA;
-  --card-bg-1: #EDE7DE;
-  --card-bg-2: #D6A06D;
-  --card-bg-3: #C9762F;
+  --gradient-start: #FFFFFF;
+  --gradient-end: #F3F4F6;
+  --card-bg-1: #E5E7EB;
+  --card-bg-2: #BBF7D0;
+  --card-bg-3: #86EFAC;
 }
 
 * {
@@ -80,7 +86,7 @@ section {
 body {
   background: radial-gradient(circle at top, var(--gradient-start), var(--gradient-end));
   color: var(--text);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
   min-height: 100vh;
   transition: background 0.3s ease, color 0.3s ease;
   /* Fix para iOS - remove bordas brancas */
@@ -92,6 +98,43 @@ h1, h2, h3, h4, .floating-nav a, .btn {
   font-family: var(--heading-font);
   letter-spacing: -0.035em;
 }
+
+.terminal-window {
+  background: var(--bg-terminal);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24);
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 14px;
+  min-height: 38px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.terminal-dots {
+  display: inline-flex;
+  gap: 7px;
+}
+
+.terminal-dots i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: block;
+}
+
+.terminal-dots i:nth-child(1) { background: #FF5F56; }
+.terminal-dots i:nth-child(2) { background: #FFBD2E; }
+.terminal-dots i:nth-child(3) { background: #27C93F; }
 
 h2 {
   font-weight: 700;
@@ -136,7 +179,7 @@ body::before {
 }
 
 .floating-nav nav {
-  background: rgba(17, 24, 39, 0.85);
+  background: rgba(13, 17, 23, 0.9);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   padding: 14px 28px;
@@ -151,6 +194,316 @@ body::before {
 
 [data-theme="light"] .floating-nav nav {
   background: rgba(255, 255, 255, 0.85);
+}
+
+.hero-terminal {
+  flex: 1;
+}
+
+.hero-terminal .hero-content {
+  max-width: none;
+  padding: 38px;
+}
+
+.code-terminal {
+  flex: 0 0 min(560px, 48%);
+}
+
+.code-editor {
+  overflow-x: auto;
+  padding: 28px 24px;
+  background: var(--bg-terminal);
+}
+
+.code-lines {
+  margin: 0;
+  padding-left: 42px;
+  color: var(--text-primary);
+  font: 0.82rem/1.8 "JetBrains Mono", "Fira Code", Consolas, monospace;
+  white-space: nowrap;
+  counter-reset: code-line;
+}
+
+.code-lines li {
+  padding-left: 10px;
+  min-height: 1.8em;
+}
+
+.code-lines li::marker {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.syntax-keyword {
+  color: var(--accent-purple);
+}
+
+.syntax-string {
+  color: var(--accent-orange);
+}
+
+.syntax-component {
+  color: var(--accent-cyan);
+}
+
+.boot-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: var(--accent-green);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.boot-status span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-green);
+  box-shadow: 0 0 0 0 rgba(57, 211, 83, 0.55);
+  animation: pulse 1.8s infinite;
+}
+
+.component-tag {
+  color: var(--accent-purple);
+  font-weight: 600;
+}
+
+.tech-section .terminal-window > header,
+.projects .terminal-window > header,
+.tech-section .terminal-window > .tech-grid,
+.projects .terminal-window > .projects-grid {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.tech-section .terminal-window > header,
+.projects .terminal-window > header {
+  padding-top: 34px;
+}
+
+.about .terminal-window,
+.contact .terminal-window {
+  padding-bottom: 36px;
+}
+
+.about .terminal-window > h2,
+.about .terminal-window > p,
+.about .terminal-window > .about-details,
+.contact .terminal-window > h2,
+.contact .terminal-window > .social-links,
+.contact .terminal-window > form,
+.contact .terminal-window > .form-status {
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+.about .terminal-window > h2,
+.contact .terminal-window > h2 {
+  padding-top: 34px;
+}
+
+.contact-json-window {
+  margin-bottom: 24px;
+}
+
+.contact-json-window h2,
+.contact-form-title {
+  margin: 0 36px;
+  padding-top: 32px;
+  color: var(--accent-green);
+  font-size: 1.1rem;
+}
+
+.contact-json {
+  margin: 22px 36px 36px;
+  padding: 24px;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font: 0.82rem/1.8 "JetBrains Mono", "Fira Code", Consolas, monospace;
+  text-align: left;
+}
+
+.json-key {
+  color: var(--accent-purple);
+}
+
+.json-string {
+  color: var(--accent-orange);
+}
+
+.contact-form-window {
+  padding-bottom: 36px;
+}
+
+.contact-form-window .social-links,
+.contact-form-window form,
+.contact-form-window .form-status {
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+.command-title {
+  color: var(--accent-green);
+  font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.about-terminal-session {
+  margin: 26px 36px 0;
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-primary);
+}
+
+.terminal-command {
+  margin: 0 0 8px;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.terminal-output {
+  margin: 0 0 18px;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.terminal-output:last-child {
+  margin-bottom: 0;
+}
+
+.neofetch-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin: 30px 36px 0;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--border-subtle);
+}
+
+.neofetch-stats div {
+  display: flex;
+  flex-direction: column;
+  min-height: 116px;
+  justify-content: center;
+  padding: 18px;
+  background: var(--bg-secondary);
+}
+
+.neofetch-stats strong {
+  color: var(--accent-green);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1;
+}
+
+.neofetch-stats span,
+.neofetch-stats small {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+.neofetch-stats span {
+  margin-top: 10px;
+}
+
+.commit-log {
+  position: relative;
+  display: grid;
+  gap: 26px;
+  padding-left: 26px;
+}
+
+.commit-log::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  width: 2px;
+  background: var(--accent-cyan);
+  opacity: 0.7;
+}
+
+.commit-entry {
+  position: relative;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--bg-terminal);
+}
+
+.commit-entry::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -27px;
+  width: 10px;
+  height: 10px;
+  border: 3px solid var(--bg-terminal);
+  border-radius: 50%;
+  background: var(--accent-cyan);
+}
+
+.commit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.75rem;
+}
+
+.commit-meta code {
+  color: var(--accent-cyan);
+}
+
+.commit-meta span {
+  color: var(--accent-purple);
+}
+
+.commit-meta time {
+  color: var(--text-secondary);
+}
+
+.commit-entry h4 {
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  margin-bottom: 7px;
+}
+
+.commit-entry p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 7px;
+}
+
+.commit-entry .commit-role {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.commit-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.commit-badges span {
+  padding: 5px 9px;
+  border: 1px solid rgba(86, 212, 221, 0.4);
+  border-radius: 999px;
+  color: var(--accent-cyan);
+  font-size: 0.7rem;
 }
 
 .floating-nav a {
@@ -334,7 +687,7 @@ body::before {
 
 [data-theme="light"] .profile-placeholder {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-  background: linear-gradient(145deg, #EDE7DE, #FFFDF9);
+  background: linear-gradient(145deg, #E5E7EB, #F8FAFC);
 }
 
 [data-theme="light"] .hero-image img {
@@ -347,7 +700,7 @@ body::before {
 
 .hero h1 {
   font-size: clamp(2.4rem, 5vw, 3.6rem);
-  color: var(--primary);
+  color: var(--text-primary);
   margin-bottom: 24px;
   line-height: 1.1;
 }
@@ -379,6 +732,19 @@ body::before {
   font-weight: 600;
   transition: all 0.3s ease;
   display: inline-block;
+}
+
+.hero .btn {
+  border: 1px solid var(--accent-green);
+  background: transparent;
+  color: var(--accent-green);
+  box-shadow: inset 0 0 0 0 var(--accent-green);
+}
+
+.hero .btn:hover {
+  color: var(--bg-primary);
+  background: var(--accent-green);
+  box-shadow: inset 0 0 22px rgba(57, 211, 83, 0.2);
 }
 
 .btn.primary {
@@ -592,6 +958,16 @@ body::before {
   font-size: 1.05rem;
 }
 
+.projects .terminal-window > header h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  text-align: left;
+  color: var(--accent-green);
+}
+
+.projects .terminal-window > header p {
+  text-align: left;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -600,7 +976,7 @@ body::before {
 }
 
 .project-card {
-  background: linear-gradient(180deg, #171A20, var(--bg));
+  background: var(--bg-secondary);
   border-radius: 28px;
   overflow: hidden;
   border: 1px solid var(--border);
@@ -639,11 +1015,43 @@ body::before {
   background: linear-gradient(135deg, var(--card-bg-1), var(--card-bg-2));
 }
 
+.repo-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+
+.repo-icon {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--accent-cyan);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.repo-heading h3 {
+  margin: 0;
+  color: var(--accent-cyan);
+  font-size: 1.15rem;
+}
+
+.repo-visibility {
+  padding: 3px 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+}
+
 .project-status {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  z-index: 2;
+  display: inline-block;
+  margin-bottom: 16px;
   padding: 6px 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
@@ -697,8 +1105,10 @@ body::before {
 }
 
 .project-body {
-  padding: 32px;
-  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background: var(--bg-secondary);
   flex: 1;
 }
 
@@ -711,10 +1121,44 @@ body::before {
 
 .project-tech span {
   padding: 5px 10px;
-  border: 1px solid rgba(59, 130, 246, 0.35);
+  border: 1px solid rgba(86, 212, 221, 0.3);
   border-radius: 999px;
   color: var(--primary-hover);
   font-size: 0.75rem;
+}
+
+.repo-meta {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 24px;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.language-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 50%;
+}
+
+.language-dot.csharp { background: var(--accent-green); }
+.language-dot.swift { background: var(--accent-orange); }
+.language-dot.typescript { background: var(--accent-cyan); }
+
+.repo-action {
+  align-self: flex-start;
+  margin-top: 20px;
+  color: var(--accent-cyan);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.repo-action:hover {
+  color: var(--accent-green);
 }
 
 .project-placeholder {
@@ -890,7 +1334,7 @@ body::before {
 }
 
 .cert-tic {
-  --cert-bg: #2563eb;
+  --cert-bg: #1D4ED8;
 }
 
 .cert-dio {
@@ -1018,14 +1462,21 @@ body::before {
 }
 
 input, textarea {
-  background: var(--surface);
+  background: var(--bg-terminal);
   border: 1px solid var(--border);
   padding: 16px;
   border-radius: 14px;
   color: var(--text);
   font-family: inherit;
   font-size: 1rem;
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
   transition: all 0.3s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
 }
 
 input:focus, textarea:focus {
@@ -1121,7 +1572,7 @@ button[type="submit"]:disabled {
 .modal-content {
   background: var(--surface);
   border-radius: 28px;
-  padding: 56px;
+  padding: 0 56px 56px;
   max-width: 860px;
   width: 100%;
   max-height: calc(100vh - 40px);
@@ -1129,6 +1580,10 @@ button[type="submit"]:disabled {
   position: relative;
   animation: modalUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   border: 1px solid var(--border);
+}
+
+.modal-terminal-bar {
+  margin: 0 -56px 38px;
 }
 
 .close-modal {
@@ -1524,6 +1979,15 @@ kbd {
     margin-top: 40px;
   }
 
+  .hero-terminal .hero-content {
+    padding: 28px 24px;
+  }
+
+  .code-terminal {
+    width: 100%;
+    flex-basis: auto;
+  }
+
   .profile-placeholder,
   .hero-image img {
     border-radius: 50%;
@@ -1553,6 +2017,64 @@ kbd {
     padding: 100px 20px 40px;
   }
 
+  .terminal-bar {
+    padding: 0 12px;
+  }
+
+  .tech-section .terminal-window > header,
+  .projects .terminal-window > header,
+  .tech-section .terminal-window > .tech-grid,
+  .projects .terminal-window > .projects-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .about .terminal-window > h2,
+  .about .terminal-window > p,
+  .about .terminal-window > .about-details,
+  .contact-json-window h2,
+  .contact-form-title,
+  .contact-json-window .contact-json,
+  .contact-form-window > .social-links,
+  .contact-form-window > form,
+  .contact-form-window > .form-status {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .about-terminal-session,
+  .neofetch-stats {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .contact-json {
+    padding: 16px;
+    font-size: 0.7rem;
+  }
+
+  .about-terminal-session {
+    padding: 16px;
+  }
+
+  .neofetch-stats div {
+    min-height: 96px;
+    padding: 12px 10px;
+  }
+
+  .neofetch-stats span,
+  .neofetch-stats small {
+    font-size: 0.6rem;
+  }
+
+  .commit-log {
+    padding-left: 20px;
+  }
+
+  .commit-entry::before {
+    left: -21px;
+  }
+
   .hero h1 {
     font-size: 2rem;
   }
@@ -1561,8 +2083,13 @@ kbd {
     font-size: 1rem;
   }
 
-  .hero-image {
-    max-width: 160px;
+  .code-editor {
+    padding: 22px 16px;
+  }
+
+  .code-lines {
+    font-size: 0.7rem;
+    padding-left: 34px;
   }
 
   section {
@@ -1593,8 +2120,12 @@ kbd {
   }
 
   .modal-content {
-    padding: 44px 24px 32px;
+    padding: 0 24px 32px;
     max-height: calc(100vh - 24px);
+  }
+
+  .modal-terminal-bar {
+    margin: 0 -24px 30px;
   }
 
   .modal-gallery {
