@@ -42,7 +42,7 @@ function updateThemeIcon() {
   // Atualiza meta theme-color para iOS
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
   if (themeColorMeta) {
-    themeColorMeta.content = currentTheme === "dark" ? "#0F1115" : "#F5F1EA";
+    themeColorMeta.content = currentTheme === "dark" ? "#0A0A0C" : "#F3F4F6";
   }
 }
 
@@ -173,6 +173,10 @@ document.querySelectorAll(".project-card").forEach(card => {
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   });
+});
+
+document.querySelectorAll(".repo-action").forEach(link => {
+  link.addEventListener("click", event => event.stopPropagation());
 });
 
 // Fecha modal

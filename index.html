@@ -13,13 +13,13 @@
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0b0f1a">
+  <meta name="theme-color" content="#0A0A0C">
   
   
   <link rel="icon" type="image/png" href="cedev.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
   
   
@@ -44,52 +44,61 @@
 <main>
 
 <section id="home" class="hero reveal">
-  <div class="hero-content">
-    <div class="availability-badge"><span></span>Disponível para novas oportunidades</div>
-    <h1>Full Stack Developer</h1>
-
-    <p class="hero-highlight">
-      Crio aplicações completas do backend ao frontend,
-      com foco em performance, organização e escalabilidade.
-    </p>
-
-    <p class="hero-text">
-      Sou Carlos Eduardo, estudante de Engenharia de Software,
-      desenvolvedor full stack com foco em backend.
-      Trabalho com APIs, aplicações web e interfaces modernas,
-      sempre priorizando código limpo e soluções eficientes.
-    </p>
-
-    <div class="hero-actions">
-      <a href="#projects" class="btn primary">Ver Projetos</a>
-      <a href="#contact" class="btn ghost">Entrar em Contato</a>
+  <div class="terminal-window hero-terminal">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>hero.tsx</span></div>
+    <div class="hero-content">
+      <div class="boot-status"><span></span>CARLOS.DEV :: v1.0.0 ONLINE</div>
+      <h1>Olá, eu sou Carlos Eduardo</h1>
+      <p class="hero-highlight"><span class="component-tag">&lt;FullStackDeveloper /&gt;</span> Construindo sistemas escaláveis do backend ao frontend.</p>
+      <p class="hero-text">
+        Sou Carlos Eduardo, estudante de Engenharia de Software,
+        desenvolvedor full stack com foco em backend.
+        Trabalho com APIs, aplicações web e interfaces modernas,
+        sempre priorizando código limpo e soluções eficientes.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn ghost">▶ Ver Projetos</a>
+        <a href="curriculo.pdf" class="btn ghost" download>⌥ Baixar CV</a>
+      </div>
     </div>
   </div>
 
-  <div class="hero-image" aria-label="Placeholder para foto profissional de Carlos Eduardo">
-    <!-- Substitua este placeholder pela sua foto real, por exemplo: /public/images/profile.jpg -->
-    <div class="profile-placeholder">
-      <div class="profile-avatar" aria-hidden="true">&lt;/&gt;</div>
-      <span>carlos.dev</span>
-      <small>Full Stack Developer</small>
+  <div class="terminal-window code-terminal">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>portfolio.tsx</span></div>
+    <div class="code-editor" aria-label="Código React de apresentação">
+      <ol class="code-lines">
+        <li><span class="syntax-keyword">import</span> { <span class="syntax-component">Developer</span> } <span class="syntax-keyword">from</span> <span class="syntax-string">'./carlos'</span>;</li>
+        <li></li>
+        <li><span class="syntax-keyword">const</span> <span class="syntax-component">Portfolio</span> = () =&gt; {</li>
+        <li>  <span class="syntax-keyword">return</span> (</li>
+        <li>    &lt;<span class="syntax-component">Developer</span></li>
+        <li>      name=<span class="syntax-string">"Carlos Eduardo"</span></li>
+        <li>      role=<span class="syntax-string">"Full Stack Developer"</span></li>
+        <li>      stack={[<span class="syntax-string">'.NET'</span>, <span class="syntax-string">'React'</span>, <span class="syntax-string">'Flutter'</span>]}</li>
+        <li>    /&gt;</li>
+        <li>  );</li>
+        <li>};</li>
+      </ol>
     </div>
   </div>
 </section>
 
 <section id="tech" class="tech-section reveal">
-  <header>
-    <h2>Stack Tecnológica</h2>
-    <p>Ferramentas e tecnologias que uso no dia a dia</p>
-  </header>
+  <div class="terminal-window">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>stack.json</span></div>
+    <header>
+      <h2>Stack Tecnológica</h2>
+      <p>Ferramentas e tecnologias que uso no dia a dia</p>
+    </header>
 
-  <div class="tech-grid">
+    <div class="tech-grid">
     <div class="tech-category">
       <div class="tech-icon"></div>
       <h3>Back-end</h3>
       <div class="tech-pills">
         <span><i class="devicon-java-plain"></i>Java</span><span><i class="devicon-csharp-plain"></i>C#</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-fastapi-plain"></i>REST APIs</span>
+        </div>
       </div>
-    </div>
 
     <div class="tech-category">
       <div class="tech-icon"></div>
@@ -139,11 +148,8 @@
       </div>
     </div>
 
-
+    </div>
   </div>
-
-
-  
 </section>
 
 <div class="tech-marquee" aria-label="Tecnologias principais">
@@ -154,78 +160,99 @@
 </div>
 
 <section id="projects" class="projects reveal">
-  <header>
-    <h2>Projetos em Destaque</h2>
-    <p>Engenharia de software aplicada a problemas reais</p>
-  </header>
+  <div class="terminal-window">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>projects.ts</span></div>
+    <header>
+      <h2>$ ls -la ~/projetos</h2>
+      <p>Engenharia de software aplicada a problemas reais</p>
+    </header>
 
-  <div class="projects-grid">
+    <div class="projects-grid">
 
     <article class="project-card" data-project="korp">
-      <div class="project-cover project-placeholder">
-        <span class="project-status">Teste técnico</span>
-        <div class="code-window" aria-label="Mockup do Korp ERP">
-          <span class="window-dots">● ● ●</span>
-          <code><strong>Korp ERP</strong><br><span>Faturamento &amp; Estoque</span><br><em>.NET 9 · Angular 19</em></code>
-        </div>
-      </div>
       <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>Korp ERP</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status">Teste técnico</span>
+        <p>Sistema corporativo de faturamento e estoque com arquitetura de microsserviços, concorrência e DANFE em PDF.</p>
         <div class="project-tech">
           <span>.NET 9</span><span>Angular 19</span><span>Docker</span>
         </div>
-        <h3>KORP <span>ERP</span></h3>
-        <p>Sistema corporativo de faturamento e estoque com arquitetura de microsserviços, concorrência e DANFE em PDF.</p>
+        <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener">Ver repositório →</a>
       </div>
     </article>
 
     <article class="project-card" data-project="cripto">
-      <div class="project-cover">
-        <span class="project-status">Projeto pessoal</span>
-        <img src="MinhaCripto/capa.png" alt="Minha Cripto" class="project-image">
-      </div>
       <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>MinhaCripto</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status">Projeto pessoal</span>
+        <p>Aplicativo mobile focado no uso prático de criptomoedas.</p>
         <div class="project-tech">
           <span>Swift</span><span>Node.js</span><span>REST API</span>
         </div>
-        <h3>MINHA<span>CRIPTO</span></h3>
-        <p>Aplicativo mobile focado no uso prático de criptomoedas.</p>
+        <div class="repo-meta"><span><i class="language-dot swift"></i>Swift</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Minha-Cripto" target="_blank" rel="noopener">Ver repositório →</a>
       </div>
     </article>
 
     <article class="project-card" data-project="resume">
-      <div class="project-cover">
-        <span class="project-status">Em produção</span>
-        <img src="ResumeAi/Resume1.png" alt="Resume AI" class="project-image">
-      </div>
       <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>ResumeAI</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status">Em produção</span>
+        <p>Aplicação full stack para geração automática de resumos.</p>
         <div class="project-tech">
           <span>React</span><span>Node.js</span><span>IA</span>
         </div>
-        <h3>RESUME<span>AI</span></h3>
-        <p>Aplicação full stack para geração automática de resumos.</p>
+        <div class="repo-meta"><span><i class="language-dot typescript"></i>TypeScript</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Resumo-IA" target="_blank" rel="noopener">Ver repositório →</a>
       </div>
     </article>
 
+    </div>
   </div>
 </section>
 
 <section id="about" class="about reveal">
-  <h2>Sobre Mim</h2>
-  <p>
-    Desenvolvedor focado em backend, arquitetura de software
-    e construção de soluções escaláveis.
-    Busco evoluir constantemente e trabalhar em projetos
-    com impacto real.
-  </p>
+  <div class="terminal-window">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>about.json</span></div>
+    <h2 class="command-title">$ cat sobre.txt</h2>
+    <div class="about-terminal-session">
+      <p class="terminal-command">➜ whoami</p>
+      <p class="terminal-output">Desenvolvedor focado em backend, arquitetura de software e construção de soluções escaláveis.</p>
+      <p class="terminal-command">➜ cat missao.txt</p>
+      <p class="terminal-output">Busco evoluir constantemente e trabalhar em projetos com impacto real.</p>
+    </div>
 
-  <div class="about-details">
+    <div class="neofetch-stats" aria-label="Estatísticas profissionais">
+      <div><strong>1+</strong><span>EXPERIÊNCIA</span><small>ANO</small></div>
+      <div><strong>4+</strong><span>PROJETOS</span></div>
+      <div><strong>15+</strong><span>STACK</span><small>TECNOLOGIAS</small></div>
+    </div>
+
+    <div class="about-details">
     <div class="about-block">
-      <h3>Experiência profissional</h3>
-      <ol class="timeline">
-        <li><strong>Infraero</strong><span>Desenvolvedor · 04/2026-Presente</span></li>
-        <li><strong>HackaTruck - Instituto Eldorado</strong><span>Desenvolvedor iOS · 04/2025-05/2025</span></li>
-        <li><strong>Projetos Independentes</strong><span>Desenvolvedor Full Stack · 05/2025-Presente</span></li>
-      </ol>
+      <h3 class="command-title"># git log --experiencia</h3>
+      <div class="commit-log">
+        <article class="commit-entry">
+          <div class="commit-meta"><code>a3f9c2c</code><span>HEAD -&gt; main</span><time>2026 - Presente</time></div>
+          <h4>Infraero</h4>
+          <p class="commit-role">Desenvolvedor</p>
+          <p>App VIA (Flutter) + sistema DEMANDAS (C#) para gestão de aeroportos.</p>
+          <div class="commit-badges"><span>Flutter</span><span>C#</span></div>
+        </article>
+        <article class="commit-entry">
+          <div class="commit-meta"><code>7b21e4a</code><span>HEAD -&gt; main</span><time>04/2025 - 05/2025</time></div>
+          <h4>HackaTruck - Instituto Eldorado</h4>
+          <p class="commit-role">Desenvolvedor iOS</p>
+          <div class="commit-badges"><span>Swift</span><span>iOS</span></div>
+        </article>
+        <article class="commit-entry">
+          <div class="commit-meta"><code>c8d04f1</code><span>HEAD -&gt; main</span><time>05/2025 - Presente</time></div>
+          <h4>Projetos Independentes</h4>
+          <p class="commit-role">Desenvolvedor Full Stack</p>
+          <div class="commit-badges"><span>Full Stack</span></div>
+        </article>
+      </div>
     </div>
     <div class="about-block">
       <h3>Formação</h3>
@@ -279,13 +306,30 @@
       <h3>Contribuições no GitHub</h3>
       <img src="https://ghchart.rshah.org/E8944A/Soarezzsemj" alt="Gráfico de contribuições de Soarezzsemj no GitHub" loading="lazy">
     </div>
+    </div>
   </div>
 </section>
 
 <section id="contact" class="contact reveal">
-  <h2>Conecte-se Comigo</h2>
+  <div class="terminal-window contact-json-window">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>contato.json</span></div>
+    <h2>Conecte-se Comigo</h2>
+    <pre class="contact-json" aria-label="Informações de contato em formato JSON"><code>{
+  <span class="json-key">"status"</span>: <span class="json-string">"disponível"</span>,
+  <span class="json-key">"email"</span>: <span class="json-string">"5carloseduardo2007@gmail.com"</span>,
+  <span class="json-key">"socials"</span>: {
+    <span class="json-key">"linkedin"</span>: <span class="json-string">"carlos-eduardo-soares"</span>,
+    <span class="json-key">"github"</span>: <span class="json-string">"Soarezzsemj"</span>,
+    <span class="json-key">"instagram"</span>: <span class="json-string">"soarezzsemj"</span>
+  },
+  <span class="json-key">"localizacao"</span>: <span class="json-string">"Brasília, DF"</span>
+}</code></pre>
+  </div>
 
-  <div class="social-links">
+  <div class="terminal-window contact-form-window">
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>enviar_mensagem.ts</span></div>
+    <h3 class="contact-form-title">Enviar mensagem</h3>
+    <div class="social-links">
     <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
@@ -301,9 +345,9 @@
         <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
       </svg>
     </a>
-  </div>
+    </div>
 
-  <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+    <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
     <input type="hidden" name="access_key" value="b0336958-aa53-4fa6-89a7-c59b53eaaeb9">
     <input type="hidden" name="redirect" value="https://web3forms.com/success">
     
@@ -320,9 +364,10 @@
     <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
     
     <button type="submit">Enviar Mensagem</button>
-  </form>
+    </form>
 
-  <div id="form-status" class="form-status hidden"></div>
+    <div id="form-status" class="form-status hidden"></div>
+  </div>
 </section>
 
 </main>
@@ -355,6 +400,7 @@
 <!-- MODAL -->
 <div id="project-modal" class="modal hidden">
   <div class="modal-content">
+    <div class="terminal-bar modal-terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>repository.preview</span></div>
     <button class="close-modal">✕</button>
     <h3 id="modal-title"></h3>
     <p id="modal-description"></p>
