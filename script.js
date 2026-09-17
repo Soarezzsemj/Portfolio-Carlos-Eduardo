@@ -42,7 +42,7 @@ function updateThemeIcon() {
   // Atualiza meta theme-color para iOS
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
   if (themeColorMeta) {
-    themeColorMeta.content = currentTheme === "dark" ? "#0b0f1a" : "#f0f0f3";
+    themeColorMeta.content = currentTheme === "dark" ? "#0F1115" : "#F5F1EA";
   }
 }
 
@@ -293,5 +293,126 @@ contactForm.addEventListener("submit", async (e) => {
     // Reabilita o botão
     submitButton.disabled = false;
     submitButton.textContent = originalText;
+  }
+});
+
+/* =========================
+   PROJECT TILT + MAGNETIC BUTTONS
+========================= */
+const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+if (canHover) {
+  document.querySelectorAll(".project-card").forEach(card => {
+    card.addEventListener("mousemove", event => {
+      const bounds = card.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width;
+      const y = (event.clientY - bounds.top) / bounds.height;
+      const rotateY = (x - 0.5) * 16;
+      const rotateX = (0.5 - y) * 16;
+      const shadowX = (x - 0.5) * -18;
+      const shadowY = 18 + (y * 10);
+      card.classList.add("is-tilting");
+      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      card.style.boxShadow = `${shadowX}px ${shadowY}px 40px rgba(0, 0, 0, 0.42)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+      card.style.boxShadow = "";
+      card.classList.remove("is-tilting");
+    });
+  });
+
+  document.querySelectorAll(".btn.primary, .btn.ghost, button[type='submit']").forEach(button => {
+    button.addEventListener("mousemove", event => {
+      const bounds = button.getBoundingClientRect();
+      const distanceX = event.clientX - (bounds.left + bounds.width / 2);
+      const distanceY = event.clientY - (bounds.top + bounds.height / 2);
+      button.style.transform = `translate(${distanceX * 0.08}px, ${distanceY * 0.08}px)`;
+    });
+
+    button.addEventListener("mouseleave", () => {
+      button.style.transform = "";
+    });
+  });
+}
+
+/* =========================
+   COMMAND PALETTE
+========================= */
+const commandPalette = document.getElementById("command-palette");
+const commandSearch = document.getElementById("command-search-input");
+const commandActions = document.getElementById("command-actions");
+const commandHint = document.querySelector(".command-hint");
+
+const commandItems = [
+  { label: "Ir para Home", action: () => navegarPara("#home") },
+  { label: "Ir para Projetos", action: () => navegarPara("#projects") },
+  { label: "Ir para Contato", action: () => navegarPara("#contact") },
+  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener") },
+  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener") },
+  { label: "Baixar Currículo (PDF)", action: () => window.open("curriculo.pdf", "_blank", "noopener") },
+  { label: "Copiar email", action: () => {
+    const emailField = document.getElementById("email");
+    if (emailField?.value) {
+      navigator.clipboard.writeText(emailField.value);
+    } else {
+      window.alert("Nenhum endereço de email informado.");
+    }
+  } },
+  { label: "Alternar tema claro/escuro", action: () => toggle.click() }
+];
+
+function navegarPara(selector) {
+  document.querySelector(selector)?.scrollIntoView({ behavior: "smooth" });
+}
+
+function renderCommandActions(query = "") {
+  commandActions.innerHTML = "";
+  commandItems
+    .filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
+    .forEach(item => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "command-action";
+      button.textContent = item.label;
+      button.addEventListener("click", () => {
+        item.action();
+        fecharCommandPalette();
+      });
+      commandActions.appendChild(button);
+    });
+}
+
+function abrirCommandPalette() {
+  commandPalette.classList.remove("hidden");
+  commandHint.classList.add("hidden");
+  document.body.style.overflow = "hidden";
+  commandSearch.value = "";
+  renderCommandActions();
+  commandSearch.focus();
+}
+
+function fecharCommandPalette() {
+  commandPalette.classList.add("hidden");
+  commandHint.classList.remove("hidden");
+  if (modal.classList.contains("hidden") && lightbox.classList.contains("hidden")) {
+    document.body.style.overflow = "";
+  }
+}
+
+commandSearch.addEventListener("input", () => renderCommandActions(commandSearch.value));
+commandPalette.addEventListener("click", event => {
+  if (event.target === commandPalette) fecharCommandPalette();
+});
+
+document.addEventListener("keydown", event => {
+  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+    event.preventDefault();
+    abrirCommandPalette();
+  }
+
+  if (event.key === "Escape" && !commandPalette.classList.contains("hidden")) {
+    fecharCommandPalette();
   }
 });
