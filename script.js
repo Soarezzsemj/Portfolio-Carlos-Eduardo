@@ -95,8 +95,18 @@ const modalDesc = document.getElementById("modal-description");
 const modalTech = document.getElementById("modal-tech");
 const modalLink = document.getElementById("modal-link");
 const closeModal = document.querySelector(".close-modal");
+const lightbox = document.getElementById("image-lightbox");
+const lightboxImage = document.getElementById("lightbox-image");
+const closeLightbox = document.getElementById("close-lightbox");
 
 const projects = {
+  korp: {
+    title: "KORP ERP — FATURAMENTO & ESTOQUE",
+    desc: "Sistema corporativo com arquitetura de microsserviços, controle de concorrência com RowVersion, emissão e cancelamento de notas fiscais e geração de DANFE em PDF.",
+    tech: ".NET 9 • Entity Framework Core • SQL Server • Angular 19 • Tailwind CSS • Docker Compose",
+    link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
+    images: []
+  },
   cripto: {
     title: "MINHA CRIPTO",
     desc: "App mobile focado em criptomoedas com usabilidade e segurança. Desenvolvido para facilitar transações e acompanhamento de ativos digitais.",
@@ -147,11 +157,15 @@ document.querySelectorAll(".project-card").forEach(card => {
     
     if (project.images && project.images.length > 0) {
       project.images.forEach(img => {
-        const imgItem = document.createElement("a");
-        imgItem.href = img.src;
-        imgItem.target = "_blank";
+        const imgItem = document.createElement("button");
+        imgItem.type = "button";
         imgItem.className = "modal-gallery-item";
+        imgItem.setAttribute("aria-label", `Ampliar ${img.alt}`);
         imgItem.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+        imgItem.addEventListener("click", (event) => {
+          event.stopPropagation();
+          abrirLightbox(img.src, img.alt);
+        });
         gallery.appendChild(imgItem);
       });
     }
@@ -163,11 +177,31 @@ document.querySelectorAll(".project-card").forEach(card => {
 
 // Fecha modal
 function fecharModal() {
+  fecharLightbox();
   modal.classList.add("hidden");
   document.body.style.overflow = ""; // Restaura scroll do body
 }
 
 closeModal.addEventListener("click", fecharModal);
+
+function abrirLightbox(src, alt) {
+  lightboxImage.src = src;
+  lightboxImage.alt = alt;
+  lightbox.classList.remove("hidden");
+}
+
+function fecharLightbox() {
+  lightbox.classList.add("hidden");
+  lightboxImage.src = "";
+  lightboxImage.alt = "";
+}
+
+closeLightbox.addEventListener("click", fecharLightbox);
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) {
+    fecharLightbox();
+  }
+});
 
 // Fecha modal ao clicar fora do conteúdo
 modal.addEventListener("click", (e) => {
@@ -178,8 +212,12 @@ modal.addEventListener("click", (e) => {
 
 // Fecha modal com tecla ESC
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-    fecharModal();
+  if (e.key === "Escape") {
+    if (!lightbox.classList.contains("hidden")) {
+      fecharLightbox();
+    } else if (!modal.classList.contains("hidden")) {
+      fecharModal();
+    }
   }
 });
 
@@ -192,7 +230,8 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     const target = document.querySelector(this.getAttribute("href"));
     
     if (target) {
-      const offset = 80; // Offset para não ficar escondido atrás da nav
+      const nav = document.querySelector(".floating-nav");
+      const offset = (nav?.getBoundingClientRect().height || 0) + 40;
       const targetPosition = target.offsetTop - offset;
       
       window.scrollTo({
