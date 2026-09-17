@@ -415,6 +415,8 @@ function abrirCommandPalette() {
   commandSearch.focus();
 }
 
+commandHint?.addEventListener("click", abrirCommandPalette);
+
 function fecharCommandPalette() {
   commandPalette.classList.add("hidden");
   commandHint.classList.remove("hidden");
