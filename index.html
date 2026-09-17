@@ -32,6 +32,7 @@
 
 <header class="floating-nav">
   <nav>
+    <button id="nav-menu-toggle" class="nav-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <a href="#home" class="active">Home</a>
     <a href="#tech">Stack</a>
     <a href="#projects">Projetos</a>
@@ -82,6 +83,13 @@
     </div>
   </div>
 </section>
+
+<div class="tech-marquee" aria-label="Tecnologias principais">
+  <div class="tech-marquee-track">
+    <span><i class="devicon-react-original"></i>React</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-flutter-plain"></i>Flutter</span><span><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span><i class="devicon-docker-plain"></i>Docker</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-swift-plain"></i>Swift</span>
+    <span aria-hidden="true"><i class="devicon-react-original"></i>React</span><span aria-hidden="true"><i class="devicon-dotnetcore-plain"></i>.NET</span><span aria-hidden="true"><i class="devicon-flutter-plain"></i>Flutter</span><span aria-hidden="true"><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span aria-hidden="true"><i class="devicon-docker-plain"></i>Docker</span><span aria-hidden="true"><i class="devicon-typescript-plain"></i>TypeScript</span><span aria-hidden="true"><i class="devicon-nodejs-plain"></i>Node.js</span><span aria-hidden="true"><i class="devicon-swift-plain"></i>Swift</span>
+  </div>
+</div>
 
 <section id="tech" class="tech-section reveal">
   <div class="terminal-window">
@@ -152,13 +160,6 @@
   </div>
 </section>
 
-<div class="tech-marquee" aria-label="Tecnologias principais">
-  <div class="tech-marquee-track">
-    <span><i class="devicon-react-original"></i>React</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-flutter-plain"></i>Flutter</span><span><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span><i class="devicon-docker-plain"></i>Docker</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-swift-plain"></i>Swift</span>
-    <span aria-hidden="true"><i class="devicon-react-original"></i>React</span><span aria-hidden="true"><i class="devicon-dotnetcore-plain"></i>.NET</span><span aria-hidden="true"><i class="devicon-flutter-plain"></i>Flutter</span><span aria-hidden="true"><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span aria-hidden="true"><i class="devicon-docker-plain"></i>Docker</span><span aria-hidden="true"><i class="devicon-typescript-plain"></i>TypeScript</span><span aria-hidden="true"><i class="devicon-nodejs-plain"></i>Node.js</span><span aria-hidden="true"><i class="devicon-swift-plain"></i>Swift</span>
-  </div>
-</div>
-
 <section id="projects" class="projects reveal">
   <div class="terminal-window">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>projects.ts</span></div>
@@ -224,7 +225,7 @@
     </div>
 
     <div class="neofetch-stats" aria-label="Estatísticas profissionais">
-      <div><strong>1+</strong><span>EXPERIÊNCIA</span><small>ANO</small></div>
+      <div><strong>1+</strong><span>ANO DE EXPERIÊNCIA</span></div>
       <div><strong>4+</strong><span>PROJETOS</span></div>
       <div><strong>15+</strong><span>STACK</span><small>TECNOLOGIAS</small></div>
     </div>
@@ -241,16 +242,16 @@
           <div class="commit-badges"><span>Flutter</span><span>C#</span></div>
         </article>
         <article class="commit-entry">
-          <div class="commit-meta"><code>7b21e4a</code><span>HEAD -&gt; main</span><time>04/2025 - 05/2025</time></div>
-          <h4>HackaTruck - Instituto Eldorado</h4>
-          <p class="commit-role">Desenvolvedor iOS</p>
-          <div class="commit-badges"><span>Swift</span><span>iOS</span></div>
-        </article>
-        <article class="commit-entry">
           <div class="commit-meta"><code>c8d04f1</code><span>HEAD -&gt; main</span><time>05/2025 - Presente</time></div>
           <h4>Projetos Independentes</h4>
           <p class="commit-role">Desenvolvedor Full Stack</p>
           <div class="commit-badges"><span>Full Stack</span></div>
+        </article>
+        <article class="commit-entry">
+          <div class="commit-meta"><code>7b21e4a</code><span>HEAD -&gt; main</span><time>04/2025 - 05/2025</time></div>
+          <h4>HackaTruck - Instituto Eldorado</h4>
+          <p class="commit-role">Desenvolvedor iOS</p>
+          <div class="commit-badges"><span>Swift</span><span>iOS</span></div>
         </article>
       </div>
     </div>
@@ -264,47 +265,33 @@
     <div class="about-block">
       <h3>Certificações</h3>
       <div class="certifications">
-        <article class="cert-card cert-hackatruck">
-          <img class="cert-logo cert-logo-banner" src="public/images/certs/hackatruck_wordmark.png" alt="HackaTruck">
-          <h4>Práticas de Cloud Services usando Swift com ênfase em Serviços Cognitivos</h4>
-          <p>HackaTruck (Instituto Eldorado / Apple Developer Academy)</p>
-          <dl>
-            <div><dt>Carga horária</dt><dd>100 horas</dd></div>
-            <div><dt>Conclusão</dt><dd>05/2025</dd></div>
-          </dl>
+        <article class="cert-column cert-dio">
+          <header class="cert-column-header">
+            <img src="public/images/certs/dio_logo.png" alt="DIO">
+            <h4>DIO</h4>
+          </header>
+          <div class="cert-entry"><h5>Formação GitHub Certification</h5><span>10 horas · 07/2026</span></div>
         </article>
-        <article class="cert-card cert-tic">
-          <img class="cert-logo cert-logo-tic" src="public/images/certs/tic_em_trilhas_logo.png" alt="TIC em Trilhas">
-          <h4>Métodos Ágeis</h4>
-          <p>TIC em Trilhas (UCB / Softex / Ministério da Ciência, Tecnologia e Inovação)</p>
-          <dl>
-            <div><dt>Carga horária</dt><dd>30 horas</dd></div>
-            <div><dt>Conclusão</dt><dd>09/2026</dd></div>
-          </dl>
+        <article class="cert-column cert-tic">
+          <header class="cert-column-header">
+            <img src="public/images/certs/tic_em_trilhas_logo.png" alt="TIC em Trilhas">
+            <h4>TIC em Trilhas</h4>
+          </header>
+          <div class="cert-entry"><h5>Métodos Ágeis</h5><span>30 horas · 09/2026</span></div>
+          <div class="cert-entry"><h5>Soluções Tecnológicas com CBL (Challenge Based Learning)</h5><span>30 horas · 09/2026</span></div>
         </article>
-        <article class="cert-card cert-tic">
-          <img class="cert-logo cert-logo-tic" src="public/images/certs/tic_em_trilhas_logo.png" alt="TIC em Trilhas">
-          <h4>Soluções Tecnológicas com CBL (Challenge Based Learning)</h4>
-          <p>TIC em Trilhas (UCB / Softex / Ministério da Ciência, Tecnologia e Inovação)</p>
-          <dl>
-            <div><dt>Carga horária</dt><dd>30 horas</dd></div>
-            <div><dt>Conclusão</dt><dd>09/2026</dd></div>
-          </dl>
-        </article>
-        <article class="cert-card cert-dio">
-          <img class="cert-logo cert-logo-dio" src="public/images/certs/dio_logo.png" alt="DIO">
-          <h4>Formação GitHub Certification</h4>
-          <p>DIO - Digital Innovation One</p>
-          <dl>
-            <div><dt>Carga horária</dt><dd>10 horas</dd></div>
-            <div><dt>Conclusão</dt><dd>07/2026</dd></div>
-          </dl>
+        <article class="cert-column cert-hackatruck">
+          <header class="cert-column-header">
+            <img src="public/images/certs/hackatruck_wordmark.png" alt="HackaTruck">
+            <h4>HackaTruck (Instituto Eldorado)</h4>
+          </header>
+          <div class="cert-entry"><h5>Práticas de Cloud Services usando Swift com ênfase em Serviços Cognitivos</h5><span>100 horas · 05/2025</span></div>
         </article>
       </div>
     </div>
     <div class="about-block github-contributions">
       <h3>Contribuições no GitHub</h3>
-      <img src="https://ghchart.rshah.org/E8944A/Soarezzsemj" alt="Gráfico de contribuições de Soarezzsemj no GitHub" loading="lazy">
+      <img src="https://ghchart.rshah.org/39D353/Soarezzsemj" alt="Gráfico de contribuições de Soarezzsemj no GitHub" loading="lazy">
     </div>
     </div>
   </div>

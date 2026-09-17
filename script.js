@@ -66,6 +66,24 @@ updateThemeIcon();
 ========================= */
 const navLinks = document.querySelectorAll(".floating-nav a");
 const sections = document.querySelectorAll("section");
+const nav = document.querySelector(".floating-nav nav");
+const navMenuToggle = document.getElementById("nav-menu-toggle");
+
+navMenuToggle?.addEventListener("click", () => {
+  const isOpen = nav?.classList.toggle("menu-open") ?? false;
+  navMenuToggle.setAttribute("aria-expanded", String(isOpen));
+  navMenuToggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+  navMenuToggle.textContent = isOpen ? "×" : "☰";
+});
+
+navLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    nav?.classList.remove("menu-open");
+    navMenuToggle?.setAttribute("aria-expanded", "false");
+    navMenuToggle?.setAttribute("aria-label", "Abrir menu");
+    if (navMenuToggle) navMenuToggle.textContent = "☰";
+  });
+});
 
 window.addEventListener("scroll", () => {
   let current = "";
