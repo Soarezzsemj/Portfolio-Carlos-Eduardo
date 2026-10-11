@@ -146,6 +146,13 @@ const projects = {
       { src: "ResumeAi/Resume2.png", alt: "Tela 1" },
       { src: "ResumeAi/Resume3.png", alt: "Tela 2" }
     ]
+  },
+  target: {
+    title: "TARGET DESAFIO",
+    desc: "Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.",
+    tech: "C# • .NET • Console App",
+    link: "https://github.com/Soarezzsemj/TargetDesafio",
+    images: []
   }
 };
 
@@ -154,6 +161,7 @@ document.querySelectorAll(".project-card").forEach(card => {
   card.addEventListener("click", () => {
     const projectKey = card.dataset.project;
     const project = projects[projectKey];
+    if (!project) return;
     
     modalTitle.textContent = project.title;
     modalDesc.textContent = project.desc;
