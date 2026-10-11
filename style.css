@@ -77,6 +77,9 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+  overflow-x: clip;
   transition: background-color 0.3s ease;
 }
 
@@ -88,12 +91,13 @@ body {
   background: radial-gradient(circle at top, var(--gradient-start), var(--gradient-end));
   color: var(--text);
   font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
-  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 100%;
+  overflow-x: clip;
   transition: background 0.3s ease, color 0.3s ease;
   /* Fix para iOS - remove bordas brancas */
   -webkit-overflow-scrolling: touch;
   position: relative;
-  overflow-x: hidden;
 }
 
 body::after {
@@ -158,7 +162,7 @@ h2 {
   font-weight: 700;
 }
 
-/* Fix adicional para iOS */
+/* Fix adicional para iOS / mobile: fundo cobre toda a viewport */
 body::before {
   content: '';
   position: fixed;
@@ -168,6 +172,7 @@ body::before {
   bottom: 0;
   background: radial-gradient(circle at top, var(--gradient-start), var(--gradient-end));
   z-index: -1;
+  pointer-events: none;
 }
 
 /* =========================
@@ -189,7 +194,7 @@ body::before {
 ========================= */
 .floating-nav {
   position: fixed;
-  top: 24px;
+  top: max(16px, env(safe-area-inset-top));
   width: 100%;
   display: flex;
   justify-content: center;
@@ -240,30 +245,56 @@ body::before {
   max-width: 560px;
 }
 
+/* Code terminal: pre/code with span.line display:block */
+.code-pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  white-space: pre;
+  tab-size: 2;
+  overflow-x: auto;
+  /* one source of truth for line breaks = span.line display:block */
+}
+
 .code-editor {
   overflow-x: auto;
   max-width: 100%;
-  padding: 28px 24px;
+  min-width: 0;
+  padding: 20px 0 20px 0;
   background: var(--bg-terminal);
 }
 
 .code-lines {
+  display: block;
+  padding: 0;
   margin: 0;
-  padding-left: 42px;
   color: var(--text-primary);
-  font: 0.82rem/1.8 "JetBrains Mono", "Fira Code", Consolas, monospace;
-  white-space: nowrap;
-  counter-reset: code-line;
+  font: clamp(0.72rem, 1.8vw, 0.85rem)/1.6 "JetBrains Mono", "Fira Code", Consolas, monospace;
+  counter-reset: code-line-counter;
+  white-space: pre;
+  padding-left: 16px;
 }
 
-.code-lines li {
-  padding-left: 10px;
-  min-height: 1.8em;
+/* Each .line is a block with counter for line number */
+.line {
+  display: block;
+  position: relative;
+  padding-left: 3ch;
+  min-height: 1.6em;
+  counter-increment: code-line-counter;
+  white-space: pre;
 }
 
-.code-lines li::marker {
+.line::before {
+  content: counter(code-line-counter);
+  position: absolute;
+  left: 0;
+  width: 2ch;
+  text-align: right;
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.75em;
+  user-select: none;
+  opacity: 0.6;
 }
 
 .syntax-keyword {
@@ -316,6 +347,8 @@ body::before {
   padding-top: 34px;
 }
 
+.tech-section .terminal-window,
+.projects .terminal-window,
 .about .terminal-window,
 .contact .terminal-window {
   padding-bottom: 36px;
@@ -589,7 +622,7 @@ body::before {
    HERO
 ========================= */
 .hero {
-  min-height: 100vh;
+  min-height: 100dvh;
   padding: 104px 40px 64px;
   max-width: var(--content-max);
   width: min(100% - 48px, var(--content-max));
@@ -600,6 +633,7 @@ body::before {
   gap: 60px;
   position: relative;
   isolation: isolate;
+  overflow: hidden;
 }
 
 .hero::before,
@@ -617,12 +651,12 @@ body::before {
 
 .hero::before {
   top: 8%;
-  left: -8%;
+  left: clamp(-100px, -8%, -20px);
   background: #3B82F6;
 }
 
 .hero::after {
-  right: -8%;
+  right: clamp(-100px, -8%, -20px);
   bottom: 0;
   background: #8B5CF6;
   animation-delay: -5s;
@@ -836,9 +870,10 @@ body::before {
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
   gap: 28px;
-  align-items: start;
+  align-items: stretch;
+  padding-bottom: 36px;
 }
 
 .tech-category {
@@ -917,7 +952,9 @@ body::before {
   position: static;
   clear: both;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
+  contain: paint;
   margin: 24px 0 12px;
   padding: 24px 0;
   border-top: 1px solid var(--border);
@@ -1015,9 +1052,10 @@ body::before {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
   gap: 36px;
   align-items: stretch;
+  padding-bottom: 36px;
 }
 
 .project-card {
@@ -1094,17 +1132,17 @@ body::before {
   font-size: 0.68rem;
 }
 
+/* project-status badge — theme-aware */
 .project-status {
   display: inline-block;
   margin-bottom: 16px;
   padding: 6px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: rgba(2, 6, 23, 0.78);
-  color: #fff;
+  background: var(--bg-terminal);
+  color: var(--text);
   font-size: 0.72rem;
   font-weight: 700;
-  backdrop-filter: blur(8px);
 }
 
 .project-image {
@@ -1155,6 +1193,11 @@ body::before {
   padding: 28px 28px 36px;
   background: var(--bg-secondary);
   flex: 1;
+}
+
+/* project-tech spacing fix: tags get margin-top from description */
+.project-body > p + .project-tech {
+  margin-top: 12px;
 }
 
 .project-tech {
@@ -1290,7 +1333,7 @@ body::before {
 
 .about-block {
   padding: 24px;
-  background: rgba(17, 24, 39, 0.7);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
 }
@@ -1300,13 +1343,26 @@ body::before {
   margin-bottom: 20px;
 }
 
+.github-contributions {
+  overflow-x: auto;
+}
+
 .github-contributions img {
   display: block;
   width: 100%;
   margin-top: 20px;
   padding: 12px;
   border-radius: 12px;
-  background: var(--bg-tertiary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+/* GitHub contributions SVG custom graph */
+#gh-contrib-graph {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  overflow: visible;
 }
 
 .timeline {
@@ -1610,7 +1666,7 @@ button[type="submit"]:disabled {
   padding: 0 56px 56px;
   max-width: 860px;
   width: 100%;
-  max-height: calc(100vh - 40px);
+  max-height: 90dvh;
   overflow-y: auto;
   position: relative;
   animation: modalUp 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -1867,6 +1923,7 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   border: 1px solid var(--border);
   border-radius: 9px;
   color: var(--muted);
@@ -1939,6 +1996,8 @@ kbd {
   background: transparent;
   box-shadow: none;
   color: var(--text);
+  font-size: 1rem; /* >= 16px prevents iOS auto-zoom */
+  min-height: 24px;
 }
 
 .command-actions {
@@ -2015,7 +2074,7 @@ kbd {
   .hero {
     flex-direction: column;
     text-align: center;
-    padding: 88px 24px 60px;
+    padding: 88px 24px clamp(40px, 8dvh, 80px);
   }
 
   .hero-content {
@@ -2087,8 +2146,7 @@ kbd {
 
   .code-editor,
   .code-editor code,
-  .code-lines,
-  .code-lines li {
+  .code-lines {
     text-align: left;
   }
 
@@ -2096,7 +2154,8 @@ kbd {
     overflow-x: auto;
   }
 
-  .code-lines {
+  .code-lines,
+  .line {
     white-space: pre;
   }
 
@@ -2262,7 +2321,7 @@ kbd {
     width: min(92vw, 560px);
     max-width: 92vw;
     padding: 0 16px 28px;
-    max-height: calc(100vh - 24px);
+    max-height: 90dvh;
     overflow-x: hidden;
     overflow-y: auto;
     overflow-wrap: anywhere;
@@ -2322,19 +2381,33 @@ kbd {
     justify-content: center;
   }
 
-  .command-hint {
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border-radius: 50%;
-  }
-
-  .command-hint-label {
-    display: none;
+  /* Touch target: float button becomes search icon, compact */
+  @media (hover: none) and (pointer: coarse) {
+    .command-hint {
+      bottom: calc(16px + env(safe-area-inset-bottom));
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border-radius: 50%;
+    }
+    .command-hint-label {
+      display: none;
+    }
+    .command-hint-icon::before {
+      content: '🔍';
+    }
+    .command-hint-icon {
+      font-style: normal;
+      font-size: 1.1rem;
+    }
   }
 }
 
 @media (min-width: 1600px) {
+  :root {
+    --content-max: 1440px;
+  }
+
   .hero,
   .tech-section,
   .projects {
@@ -2345,11 +2418,43 @@ kbd {
     margin-top: 36px;
     margin-bottom: 24px;
   }
+
+  .projects-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --content-max: 1560px;
+  }
+  html {
+    font-size: 106.25%;
+  }
+}
+
+@media (min-width: 2200px) {
+  html {
+    font-size: 112.5%;
+  }
 }
 
 @media (min-width: 2560px) {
+  :root {
+    --content-max: 1920px;
+  }
   .tech-marquee-track {
     animation-duration: 42s;
+  }
+}
+
+@media (min-width: 3000px) {
+  html {
+    font-size: 125%;
   }
 }
 
