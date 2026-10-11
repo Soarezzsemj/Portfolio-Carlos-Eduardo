@@ -1805,7 +1805,7 @@ button[type="submit"]:disabled {
 }
 
 .modal-live-btn {
-  display: inline-flex !important;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
