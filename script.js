@@ -451,8 +451,18 @@ commandPalette.addEventListener("click", event => {
   if (event.target === commandPalette) fecharCommandPalette();
 });
 
+const isMac = (() => {
+  try {
+    const platform = navigator.userAgentData?.platform || navigator.platform || navigator.userAgent || "";
+    return /mac|iphone|ipad|ipod/i.test(platform);
+  } catch (e) {
+    return false;
+  }
+})();
+
 document.addEventListener("keydown", event => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+  const modifier = isMac ? event.metaKey : event.ctrlKey;
+  if (modifier && event.key?.toLowerCase() === "k") {
     event.preventDefault();
     abrirCommandPalette();
   }
@@ -466,18 +476,6 @@ document.addEventListener("keydown", event => {
    PLATFORM DETECTION: ⌘K vs Ctrl K
 ========================= */
 (function detectPlatform() {
-  const isMac = (() => {
-    try {
-      const p = navigator.userAgentData?.platform || navigator.platform || "";
-      return /mac/i.test(p);
-    } catch(e) { return false; }
-  })();
-
   const kbd = document.getElementById("command-hint-kbd");
-  const icon = document.querySelector(".command-hint-icon");
-
-  if (!isMac) {
-    if (kbd) kbd.textContent = "Ctrl K";
-    if (icon) icon.textContent = "Ctrl";
-  }
+  if (kbd && !isMac) kbd.textContent = "Ctrl K";
 })();

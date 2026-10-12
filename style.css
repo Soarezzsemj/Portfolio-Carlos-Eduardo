@@ -1973,12 +1973,15 @@ footer {
   outline: none;
 }
 
+.command-hint-icon {
+  display: inline-flex;
+}
+
 .command-hint.hidden {
   display: none;
 }
 
 kbd {
-  margin-left: 4px;
   color: var(--accent);
   font-family: inherit;
   font-weight: 700;
@@ -2423,12 +2426,9 @@ kbd {
     .command-hint-label {
       display: none;
     }
-    .command-hint-icon::before {
-      content: '🔍';
-    }
-    .command-hint-icon {
-      font-style: normal;
-      font-size: 1.1rem;
+    .command-hint-icon svg {
+      width: 20px;
+      height: 20px;
     }
   }
 }
