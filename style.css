@@ -919,14 +919,19 @@ body::before {
 }
 
 .tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
-  gap: 28px;
+  /* flex-wrap: no máximo 4 cards por linha; os da última linha crescem
+     para ocupar a largura toda (sem vagas vazias), com a mesma altura na linha */
+  --tech-gap: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tech-gap);
   align-items: stretch;
   padding-bottom: 36px;
 }
 
 .tech-category {
+  flex: 1 1 max(min(260px, 100%), calc((100% - 3 * var(--tech-gap)) / 4));
+  min-width: 0;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 24px;
@@ -1802,6 +1807,12 @@ button[type="submit"] {
   transition: all 0.3s ease;
 }
 
+/* OPCIONAL 3a: contraste do "Enviar Mensagem" no tema escuro (texto escuro sobre o verde,
+   mesma cor usada no hover dos botões do hero). Apague este bloco para voltar ao branco. */
+[data-theme="dark"] button[type="submit"] {
+  color: var(--bg-primary);
+}
+
 @media (hover: hover) {
   button[type="submit"]:hover {
     background: var(--primary-hover);
@@ -2498,7 +2509,9 @@ kbd {
 
   .floating-nav nav.menu-open > a {
     display: block;
-    padding: 10px 4px;
+    /* alvo de toque >= 44px */
+    min-height: 44px;
+    padding: 12.5px 4px;
   }
 
   .floating-nav nav.menu-open #theme-toggle {
@@ -2606,8 +2619,7 @@ kbd {
   }
 
   .tech-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    --tech-gap: 24px;
   }
 
   .projects-grid {
@@ -2748,12 +2760,6 @@ kbd {
   .projects-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-  .tech-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .tech-grid .tech-category:last-child {
-    grid-column: span 2;
-  }
 }
 
 @media (min-width: 3000px) {
@@ -2812,5 +2818,14 @@ kbd {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
+  }
+}
+
+/* OPCIONAL 3b: em telefones touch, desce o botão flutuante (16px -> 10px da borda inferior,
+   somado ao safe-area) para dar folga aos CTAs do hero em 375x667 e 390x844.
+   Apague este bloco para voltar à posição anterior. */
+@media (max-width: 600px) and (hover: none) and (pointer: coarse) {
+  .command-hint {
+    bottom: calc(10px + env(safe-area-inset-bottom));
   }
 }
