@@ -98,6 +98,8 @@ body {
   /* Fix para iOS - remove bordas brancas */
   -webkit-overflow-scrolling: touch;
   position: relative;
+  /* contexto de empilhamento: camadas z-index negativas (glows) pintam sobre o fundo do body */
+  isolation: isolate;
 }
 
 body::after {
@@ -633,33 +635,61 @@ body::before {
   gap: 60px;
   position: relative;
   isolation: isolate;
-  overflow: hidden;
 }
 
-.hero::before,
-.hero::after {
+/* Glows de fundo: wrapper fixo do tamanho da viewport, sem corte seco no hero */
+.bg-glows {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-glows::before,
+.bg-glows::after {
   content: "";
   position: absolute;
-  z-index: -1;
-  width: 520px;
-  height: 520px;
+  width: clamp(320px, 34vw, 720px);
+  aspect-ratio: 1;
   border-radius: 50%;
   filter: blur(70px);
   opacity: 0.2;
   animation: aurora 18s ease-in-out infinite alternate;
 }
 
-.hero::before {
+.bg-glows::before {
   top: 8%;
-  left: clamp(-100px, -8%, -20px);
+  left: -6%;
   background: #3B82F6;
 }
 
-.hero::after {
-  right: clamp(-100px, -8%, -20px);
-  bottom: 0;
+.bg-glows::after {
+  right: -6%;
+  bottom: 4%;
   background: #8B5CF6;
   animation-delay: -5s;
+}
+
+@media (max-width: 768px) {
+  .bg-glows::before,
+  .bg-glows::after {
+    width: 90vw;
+    filter: none;
+    opacity: 0.32;
+  }
+
+  .bg-glows::before {
+    top: 2%;
+    left: -30vw;
+    background: radial-gradient(circle closest-side, #3B82F6, transparent);
+  }
+
+  .bg-glows::after {
+    right: -30vw;
+    bottom: 6%;
+    background: radial-gradient(circle closest-side, #8B5CF6, transparent);
+  }
 }
 
 @keyframes aurora {
