@@ -585,3 +585,126 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
     baixarCurriculo();
   });
 });
+
+/* =========================
+   CONTRIBUIÇÕES NO GITHUB
+   API pública sem token; se falhar, volta para a imagem do ghchart.
+========================= */
+(function contribuicoesGithub() {
+  const usuario = "Soarezzsemj";
+  const container = document.getElementById("github-contributions");
+  const scroll = document.getElementById("contrib-scroll");
+  const chart = document.getElementById("contrib-chart");
+  const totalEl = document.getElementById("contrib-total");
+  const legend = document.getElementById("contrib-legend");
+  const tooltip = document.getElementById("contrib-tooltip");
+  if (!container || !chart) return;
+
+  const MESES_CURTOS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+  const textoContribuicoes = n => `${n} ${n === 1 ? "contribuição" : "contribuições"}`;
+
+  function usarFallback() {
+    chart.remove();
+    if (legend) legend.hidden = true;
+    if (totalEl) totalEl.textContent = "";
+    const img = document.createElement("img");
+    img.src = `https://ghchart.rshah.org/39D353/${usuario}`;
+    img.alt = `Gráfico de contribuições de ${usuario} no GitHub`;
+    img.loading = "lazy";
+    scroll.appendChild(img);
+  }
+
+  function criar(tag, className, texto) {
+    const el = document.createElement(tag);
+    el.className = className;
+    if (texto) el.textContent = texto;
+    return el;
+  }
+
+  function desenhar(dados) {
+    const dias = dados.contributions;
+    const total = dados.total?.lastYear ?? dias.reduce((soma, d) => soma + d.count, 0);
+    const primeiro = new Date(`${dias[0].date}T00:00:00Z`);
+    const offset = primeiro.getUTCDay(); // semanas começam no domingo
+    const semanas = Math.ceil((dias.length + offset) / 7);
+    const fragment = document.createDocumentFragment();
+
+    // Rótulos dos dias: Seg, Qua, Sex nas linhas 2, 4 e 6 da semana
+    [["Seg", 1], ["Qua", 3], ["Sex", 5]].forEach(([nome, dia]) => {
+      const label = criar("span", "contrib-day", nome);
+      label.style.gridRow = String(dia + 2);
+      fragment.appendChild(label);
+    });
+
+    const colunasComMes = [];
+    dias.forEach((dia, i) => {
+      const data = new Date(`${dia.date}T00:00:00Z`);
+      const posicao = i + offset;
+      const coluna = Math.floor(posicao / 7);
+      const linha = posicao % 7;
+
+      // Mês rotulado na semana que contém o dia 1 (e na 1ª coluna, se houver espaço)
+      if (data.getUTCDate() === 1 || i === 0) {
+        colunasComMes.push({ coluna, mes: data.getUTCMonth(), inicio: i === 0 });
+      }
+
+      const cell = criar("span", "contrib-cell");
+      cell.dataset.level = String(dia.level);
+      cell.dataset.tip = `${textoContribuicoes(dia.count)} em ${data.getUTCDate()} de ${MESES[data.getUTCMonth()]} de ${data.getUTCFullYear()}`;
+      cell.style.gridColumn = String(coluna + 2);
+      cell.style.gridRow = String(linha + 2);
+      fragment.appendChild(cell);
+    });
+
+    colunasComMes.forEach((item, idx) => {
+      const proximo = colunasComMes[idx + 1];
+      if (item.inicio && proximo && proximo.coluna - item.coluna < 3) return;
+      const label = criar("span", "contrib-month", MESES_CURTOS[item.mes]);
+      label.style.gridColumn = String(item.coluna + 2);
+      fragment.appendChild(label);
+    });
+
+    chart.style.setProperty("--contrib-weeks", String(semanas));
+    chart.setAttribute("aria-label", `${textoContribuicoes(total)} no último ano no GitHub de ${usuario}`);
+    chart.appendChild(fragment);
+    if (totalEl) totalEl.textContent = `${textoContribuicoes(total)} no último ano`;
+
+    // Em telas estreitas, começa mostrando a data mais recente
+    scroll.scrollLeft = scroll.scrollWidth;
+  }
+
+  function mostrarTooltip(cell) {
+    const caixa = container.getBoundingClientRect();
+    const alvo = cell.getBoundingClientRect();
+    tooltip.textContent = cell.dataset.tip;
+    tooltip.hidden = false;
+    const metade = tooltip.offsetWidth / 2;
+    const centro = alvo.left + alvo.width / 2 - caixa.left;
+    tooltip.style.left = `${Math.min(Math.max(centro, metade), caixa.width - metade)}px`;
+    tooltip.style.top = `${alvo.top - caixa.top}px`;
+  }
+
+  chart.addEventListener("pointerover", e => {
+    const cell = e.target.closest(".contrib-cell");
+    if (cell) mostrarTooltip(cell);
+  });
+  chart.addEventListener("pointerleave", () => { tooltip.hidden = true; });
+  scroll.addEventListener("scroll", () => { tooltip.hidden = true; }, { passive: true });
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  fetch(`https://github-contributions-api.jogruber.de/v4/${usuario}?y=last`, { signal: controller.signal })
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(dados => {
+      if (!Array.isArray(dados?.contributions) || !dados.contributions.length) throw new Error("Resposta inválida");
+      desenhar(dados);
+    })
+    .catch(usarFallback)
+    .finally(() => clearTimeout(timeout));
+})();
+
