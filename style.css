@@ -1827,6 +1827,39 @@ button[type="submit"]:disabled {
   background: var(--primary);
 }
 
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.8);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-prev {
+  left: max(12px, env(safe-area-inset-left));
+}
+
+.lightbox-next {
+  right: max(12px, env(safe-area-inset-right));
+}
+
+.lightbox-nav[hidden] {
+  display: none;
+}
+
+@media (hover: hover) {
+  .lightbox-nav:hover {
+    background: var(--primary);
+  }
+}
+
 .modal-links {
   display: flex;
   gap: 12px;
