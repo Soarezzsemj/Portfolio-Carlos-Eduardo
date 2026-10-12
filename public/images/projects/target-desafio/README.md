@@ -1,9 +1,10 @@
 # Screenshots do Projeto TargetDesafio
 
 Esta pasta contém as imagens de demonstração da galeria do modal do projeto **TargetDesafio**.
-Os arquivos atuais são placeholders (1280x720).
+Arquivos que ainda não têm print real são placeholders (1280x720).
 
-## Arquivos:
+## Arquivos (na ordem da galeria):
+- `menu.png` (print nativo do console, sem redimensionar) — Menu inicial "TESTE TÉCNICO TARGET SISTEMAS" com as opções 1 - Questão Comissões, 2 - Questão Estoque, 3 - Questão Juros e 0 - Sair.
 - `01-comissoes.png` (1280x720) — Saída do cálculo de comissões.
 - `02-estoque.png` (1280x720) — Saída do controle de estoque.
 - `03-juros.png` (1280x720) — Saída do cálculo de juros.
