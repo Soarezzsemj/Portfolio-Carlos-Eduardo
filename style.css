@@ -2647,9 +2647,12 @@ kbd {
   }
 
   .modal-gallery-item img {
-    width: 100%;
+    /* reduz se preciso, mas nunca amplia prints pequenos (ex.: console) */
+    width: auto;
+    max-width: 100%;
     height: auto;
     max-height: 240px;
+    margin: 0 auto;
     object-fit: contain;
   }
 

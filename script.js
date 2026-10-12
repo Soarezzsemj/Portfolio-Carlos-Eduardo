@@ -181,6 +181,7 @@ const projects = {
     tech: "C# • .NET • Console App",
     link: "https://github.com/Soarezzsemj/TargetDesafio",
     images: [
+      { src: "public/images/projects/target-desafio/menu.png", alt: "Menu inicial do console" },
       { src: "public/images/projects/target-desafio/01-comissoes.png", alt: "Cálculo de comissões" },
       { src: "public/images/projects/target-desafio/02-estoque.png", alt: "Controle de estoque" },
       { src: "public/images/projects/target-desafio/03-juros.png", alt: "Cálculo de juros" }
