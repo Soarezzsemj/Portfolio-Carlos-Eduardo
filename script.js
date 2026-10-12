@@ -179,10 +179,14 @@ const projects = {
     tech: "C# • .NET • Console App",
     link: "https://github.com/Soarezzsemj/TargetDesafio",
     images: [
-      { src: "public/images/projects/target-desafio/menu.png", alt: "Menu inicial do console" },
-      { src: "public/images/projects/target-desafio/01-comissoes.png", alt: "Cálculo de comissões" },
-      { src: "public/images/projects/target-desafio/02-estoque.png", alt: "Controle de estoque" },
-      { src: "public/images/projects/target-desafio/03-juros.png", alt: "Cálculo de juros" }
+      { src: "public/images/projects/target-desafio/menu.png", alt: "Menu principal do console" },
+      { src: "public/images/projects/target-desafio/comissoes.png", alt: "Comissão de cada vendedor" },
+      { src: "public/images/projects/target-desafio/detalhamento-vendas.png", alt: "Detalhamento das vendas" },
+      { src: "public/images/projects/target-desafio/menu-estoque.png", alt: "Menu da questão de estoque" },
+      { src: "public/images/projects/target-desafio/lancar-movimentacao.png", alt: "Lançar movimentação de estoque" },
+      { src: "public/images/projects/target-desafio/consulta-estoque.png", alt: "Consulta de estoque" },
+      { src: "public/images/projects/target-desafio/historico-movimentacoes.png", alt: "Histórico de movimentações" },
+      { src: "public/images/projects/target-desafio/juros.png", alt: "Cálculo de juros por atraso" }
     ]
   }
 };
