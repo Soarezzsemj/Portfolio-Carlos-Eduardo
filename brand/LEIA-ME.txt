@@ -1,0 +1,28 @@
+LOGO - CARLOS EDUARDO  (monograma "CE_" no estilo terminal do portfolio)
+
+SITE (colocar na RAIZ do repositorio, ao lado do index.html)
+  favicon.svg            icone da aba do navegador (moderno, escala sem perder qualidade)
+  favicon.ico            16/32/48 px, para navegadores antigos
+  apple-touch-icon.png   180x180, icone quando salvam o site na tela inicial do iPhone
+  og-image.png           1200x630, "fotinha" que aparece quando compartilham o link
+                         (WhatsApp, LinkedIn, Discord, Slack)
+
+USO GERAL
+  avatar-1024.png        quadrado, ja com margem de seguranca para corte redondo
+                         (foto de perfil: GitHub, LinkedIn, WhatsApp, Instagram)
+  logo-icon.svg          icone com cantos arredondados (vetor)
+  logo-icon-1024.png     o mesmo em PNG, cantos transparentes
+  logo-horizontal-dark   icone + nome + cargo, texto claro  -> fundos ESCUROS
+  logo-horizontal-light  icone + nome + cargo, texto escuro -> fundos CLAROS
+                         (.svg = vetor, .png = 2480x720 com fundo transparente)
+  icon-192.png / icon-512.png / favicon-32.png   tamanhos extras (PWA, etc.)
+
+CORES
+  Verde    #39d353   (claro: #15803d)
+  Roxo     #c792ea
+  Fundo    #1a2030 -> #0a0d12
+  Texto    #e6edf3   (claro: #111827)
+FONTE: JetBrains Mono ExtraBold (licenca OFL, uso livre). Os SVGs ja tem as letras
+convertidas em tracos, entao nao precisam da fonte instalada.
+
+Obs.: o favicon e uma versao simplificada (sem o cursor roxo) para ficar legivel em 16 px.

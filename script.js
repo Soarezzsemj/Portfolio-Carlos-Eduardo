@@ -169,8 +169,9 @@ const projects = {
     link: "https://github.com/Soarezzsemj/Resumo-IA",
     liveLink: "https://resumo-ia.vercel.app/",
     images: [
-      { src: "ResumeAi/Resume2.png", alt: "Tela 1" },
-      { src: "ResumeAi/Resume3.png", alt: "Tela 2" }
+      { src: "ResumeAi/tela-inicial.png", alt: "Tela inicial" },
+      { src: "ResumeAi/resumo-gerado.png", alt: "Resumo gerado" },
+      { src: "ResumeAi/entrada-e-opcoes.png", alt: "Entrada de texto e opções" }
     ]
   },
   target: {
@@ -183,7 +184,6 @@ const projects = {
       { src: "public/images/projects/target-desafio/comissoes.png", alt: "Comissão de cada vendedor" },
       { src: "public/images/projects/target-desafio/detalhamento-vendas.png", alt: "Detalhamento das vendas" },
       { src: "public/images/projects/target-desafio/menu-estoque.png", alt: "Menu da questão de estoque" },
-      { src: "public/images/projects/target-desafio/lancar-movimentacao.png", alt: "Lançar movimentação de estoque" },
       { src: "public/images/projects/target-desafio/consulta-estoque.png", alt: "Consulta de estoque" },
       { src: "public/images/projects/target-desafio/historico-movimentacoes.png", alt: "Histórico de movimentações" },
       { src: "public/images/projects/target-desafio/juros.png", alt: "Cálculo de juros por atraso" }
