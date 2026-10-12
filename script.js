@@ -116,6 +116,10 @@ const closeModal = document.querySelector(".close-modal");
 const lightbox = document.getElementById("image-lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const closeLightbox = document.getElementById("close-lightbox");
+const lightboxPrev = document.getElementById("lightbox-prev");
+const lightboxNext = document.getElementById("lightbox-next");
+let galleryImages = [];
+let galleryIndex = 0;
 
 const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22 viewBox=%220 0 320 180%22%3E%3Crect width=%22320%22 height=%22180%22 fill=%22%23111318%22/%3E%3Ctext x=%22160%22 y=%2295%22 fill=%22%2339D353%22 font-family=%22monospace%22 font-size=%2214%22 text-anchor=%22middle%22%3EImagem n%C3%A3o encontrada%3C/text%3E%3C/svg%3E';
 
@@ -160,7 +164,11 @@ const projects = {
     desc: "Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.",
     tech: "C# • .NET • Console App",
     link: "https://github.com/Soarezzsemj/TargetDesafio",
-    images: []
+    images: [
+      { src: "public/images/projects/target-desafio/01-comissoes.png", alt: "Cálculo de comissões" },
+      { src: "public/images/projects/target-desafio/02-estoque.png", alt: "Controle de estoque" },
+      { src: "public/images/projects/target-desafio/03-juros.png", alt: "Cálculo de juros" }
+    ]
   }
 };
 
@@ -188,9 +196,10 @@ document.querySelectorAll(".project-card").forEach(card => {
     // Adiciona galeria de imagens
     const gallery = document.getElementById("modal-gallery");
     gallery.innerHTML = "";
+    galleryImages = [];
     
     if (project.images && project.images.length > 0) {
-      project.images.forEach(img => {
+      project.images.forEach((img, index) => {
         const imgItem = document.createElement("button");
         imgItem.type = "button";
         imgItem.className = "modal-gallery-item";
@@ -204,9 +213,10 @@ document.querySelectorAll(".project-card").forEach(card => {
           imgEl.src = PLACEHOLDER_IMG;
         });
         imgItem.appendChild(imgEl);
+        galleryImages.push(imgEl);
         imgItem.addEventListener("click", (event) => {
           event.stopPropagation();
-          abrirLightbox(imgEl.src, img.alt);
+          abrirLightbox(index);
         });
         gallery.appendChild(imgItem);
       });
@@ -230,9 +240,21 @@ function fecharModal() {
 
 closeModal.addEventListener("click", fecharModal);
 
-function abrirLightbox(src, alt) {
-  lightboxImage.src = src;
-  lightboxImage.alt = alt;
+function mostrarImagemLightbox(index) {
+  const total = galleryImages.length;
+  if (!total) return;
+  galleryIndex = (index + total) % total;
+  const imgEl = galleryImages[galleryIndex];
+  // usa o src atual da miniatura (já trocado pelo placeholder se a imagem falhou)
+  lightboxImage.src = imgEl.src;
+  lightboxImage.alt = imgEl.alt;
+}
+
+function abrirLightbox(index) {
+  mostrarImagemLightbox(index);
+  const temVarias = galleryImages.length > 1;
+  lightboxPrev.hidden = !temVarias;
+  lightboxNext.hidden = !temVarias;
   lightbox.classList.remove("hidden");
 }
 
@@ -243,6 +265,23 @@ function fecharLightbox() {
 }
 
 closeLightbox.addEventListener("click", fecharLightbox);
+lightboxPrev.addEventListener("click", () => mostrarImagemLightbox(galleryIndex - 1));
+lightboxNext.addEventListener("click", () => mostrarImagemLightbox(galleryIndex + 1));
+
+// Swipe horizontal no lightbox (touch)
+let swipeStartX = 0;
+let swipeStartY = 0;
+lightbox.addEventListener("touchstart", (e) => {
+  swipeStartX = e.changedTouches[0].clientX;
+  swipeStartY = e.changedTouches[0].clientY;
+}, { passive: true });
+lightbox.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - swipeStartX;
+  const dy = e.changedTouches[0].clientY - swipeStartY;
+  if (galleryImages.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+    mostrarImagemLightbox(galleryIndex + (dx < 0 ? 1 : -1));
+  }
+});
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) {
     fecharLightbox();
@@ -258,6 +297,10 @@ modal.addEventListener("click", (e) => {
 
 // Fecha modal com tecla ESC
 document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("hidden") && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+    mostrarImagemLightbox(galleryIndex + (e.key === "ArrowRight" ? 1 : -1));
+  }
+
   if (e.key === "Escape") {
     if (!lightbox.classList.contains("hidden")) {
       fecharLightbox();
