@@ -83,13 +83,22 @@ navMenuToggle?.addEventListener("click", () => {
   navMenuToggle.textContent = isOpen ? "×" : "☰";
 });
 
-navLinks.forEach(link => {
-  link.addEventListener("click", () => {
-    nav?.classList.remove("menu-open");
-    navMenuToggle?.setAttribute("aria-expanded", "false");
-    navMenuToggle?.setAttribute("aria-label", "Abrir menu");
-    if (navMenuToggle) navMenuToggle.textContent = "☰";
-  });
+function fecharMenu() {
+  if (!nav?.classList.contains("menu-open")) return;
+  nav.classList.remove("menu-open");
+  navMenuToggle?.setAttribute("aria-expanded", "false");
+  navMenuToggle?.setAttribute("aria-label", "Abrir menu");
+  if (navMenuToggle) navMenuToggle.textContent = "☰";
+}
+
+navLinks.forEach(link => link.addEventListener("click", fecharMenu));
+
+document.addEventListener("click", event => {
+  if (nav && !nav.contains(event.target)) fecharMenu();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") fecharMenu();
 });
 
 window.addEventListener("scroll", () => {

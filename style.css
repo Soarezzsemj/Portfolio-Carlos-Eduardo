@@ -88,8 +88,9 @@ html {
   transition: background-color 0.3s ease;
 }
 
-section {
-  scroll-margin-top: 110px;
+html {
+  /* compensa a navbar fixa ao navegar por âncoras */
+  scroll-padding-top: 110px;
 }
 
 body {
@@ -2590,8 +2591,8 @@ kbd {
     padding-left: 34px;
   }
 
-  section {
-    scroll-margin-top: 82px;
+  html {
+    scroll-padding-top: 82px;
   }
 
   .projects, .about, .contact {
@@ -2790,5 +2791,23 @@ kbd {
 
   .code-lines {
     font-size: 0.64rem;
+  }
+}
+/* Alvos de toque >= 44px em telas touch */
+@media (pointer: coarse) {
+  .nav-menu-toggle,
+  #theme-toggle,
+  .social-icon,
+  .footer-socials a {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .repo-action,
+  .back-to-top,
+  .contrib-footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 }
