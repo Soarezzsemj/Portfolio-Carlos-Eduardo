@@ -117,13 +117,21 @@ const lightbox = document.getElementById("image-lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const closeLightbox = document.getElementById("close-lightbox");
 
+const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22 viewBox=%220 0 320 180%22%3E%3Crect width=%22320%22 height=%22180%22 fill=%22%23111318%22/%3E%3Ctext x=%22160%22 y=%2295%22 fill=%22%2339D353%22 font-family=%22monospace%22 font-size=%2214%22 text-anchor=%22middle%22%3EImagem n%C3%A3o encontrada%3C/text%3E%3C/svg%3E';
+
 const projects = {
   korp: {
     title: "KORP ERP — FATURAMENTO & ESTOQUE",
     desc: "Sistema corporativo com arquitetura de microsserviços, controle de concorrência com RowVersion, emissão e cancelamento de notas fiscais e geração de DANFE em PDF.",
     tech: ".NET 9 • Entity Framework Core • SQL Server • Angular 19 • Tailwind CSS • Docker Compose",
     link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
-    images: []
+    images: [
+      { src: "public/images/projects/korp-erp/01-login.png", alt: "Tela de Login" },
+      { src: "public/images/projects/korp-erp/02-dashboard.png", alt: "Dashboard" },
+      { src: "public/images/projects/korp-erp/03-faturamento.png", alt: "Faturamento" },
+      { src: "public/images/projects/korp-erp/04-estoque.png", alt: "Estoque" },
+      { src: "public/images/projects/korp-erp/05-danfe-pdf.png", alt: "DANFE em PDF" }
+    ]
   },
   cripto: {
     title: "MINHA CRIPTO",
@@ -187,10 +195,18 @@ document.querySelectorAll(".project-card").forEach(card => {
         imgItem.type = "button";
         imgItem.className = "modal-gallery-item";
         imgItem.setAttribute("aria-label", `Ampliar ${img.alt}`);
-        imgItem.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+        const imgEl = document.createElement("img");
+        imgEl.src = img.src;
+        imgEl.alt = img.alt;
+        imgEl.loading = "lazy";
+        imgEl.addEventListener("error", function onErr() {
+          imgEl.removeEventListener("error", onErr);
+          imgEl.src = PLACEHOLDER_IMG;
+        });
+        imgItem.appendChild(imgEl);
         imgItem.addEventListener("click", (event) => {
           event.stopPropagation();
-          abrirLightbox(img.src, img.alt);
+          abrirLightbox(imgEl.src, img.alt);
         });
         gallery.appendChild(imgItem);
       });
