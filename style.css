@@ -24,6 +24,11 @@
   --card-bg-1: #0D1117;
   --card-bg-2: #182C20;
   --card-bg-3: #216E39;
+  --contrib-0: color-mix(in srgb, var(--border-subtle) 70%, var(--bg-secondary));
+  --contrib-1: color-mix(in srgb, var(--accent-green) 30%, var(--contrib-0));
+  --contrib-2: color-mix(in srgb, var(--accent-green) 52%, var(--contrib-0));
+  --contrib-3: color-mix(in srgb, var(--accent-green) 76%, var(--contrib-0));
+  --contrib-4: var(--accent-green);
   --heading-font: "JetBrains Mono", monospace;
 }
 
@@ -1374,18 +1379,151 @@ body::before {
 }
 
 .github-contributions {
-  overflow-x: auto;
+  position: relative;
+  min-width: 0;
 }
 
-.github-contributions img {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 12px;
+.contrib-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.github-contributions .contrib-header h3 {
+  margin-bottom: 0;
+}
+
+.contrib-total {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.contrib-scroll {
+  overflow-x: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface);
-  border: 1px solid var(--border);
 }
+
+.contrib-chart {
+  --contrib-cell: 11px;
+  --contrib-gap: 3px;
+  display: grid;
+  grid-template-columns: auto repeat(var(--contrib-weeks, 53), var(--contrib-cell));
+  grid-template-rows: auto repeat(7, var(--contrib-cell));
+  gap: var(--contrib-gap);
+  width: max-content;
+  margin: 0 auto;
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.contrib-month,
+.contrib-day {
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.contrib-month {
+  grid-row: 1;
+  padding-bottom: 4px;
+}
+
+.contrib-day {
+  grid-column: 1;
+  padding-right: 6px;
+  line-height: var(--contrib-cell);
+}
+
+.contrib-cell,
+.contrib-legend i {
+  width: var(--contrib-cell, 11px);
+  height: var(--contrib-cell, 11px);
+  border-radius: 2px;
+  background: var(--contrib-0);
+}
+
+.contrib-cell[data-level="1"],
+.contrib-legend i[data-level="1"] { background: var(--contrib-1); }
+.contrib-cell[data-level="2"],
+.contrib-legend i[data-level="2"] { background: var(--contrib-2); }
+.contrib-cell[data-level="3"],
+.contrib-legend i[data-level="3"] { background: var(--contrib-3); }
+.contrib-cell[data-level="4"],
+.contrib-legend i[data-level="4"] { background: var(--contrib-4); }
+
+@media (hover: hover) {
+  .contrib-cell:hover {
+    outline: 1px solid var(--muted);
+    outline-offset: 1px;
+  }
+}
+
+.contrib-tooltip {
+  position: absolute;
+  z-index: 5;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--bg-terminal);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 8px));
+}
+
+.contrib-tooltip[hidden] {
+  display: none;
+}
+
+.contrib-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.contrib-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.contrib-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.contrib-legend[hidden] {
+  display: none;
+}
+
+.contrib-legend span {
+  margin: 0 4px;
+}
+
+.contrib-scroll img {
+  display: block;
+  width: 100%;
+  min-width: 640px;
+}
+
+@media (min-width: 1024px) {
+  .contrib-chart {
+    --contrib-cell: 12px;
+  }
+}
+
 
 /* GitHub contributions SVG custom graph */
 #gh-contrib-graph {
