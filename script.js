@@ -1,4 +1,10 @@
 /* =========================
+   CURRÍCULO (caminho único)
+========================= */
+const CV_URL = "CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf";
+const CV_FILENAME = "Carlos_Eduardo_Soares_CV_Portifolio.pdf";
+
+/* =========================
    REVEAL ANIMATION
 ========================= */
 const reveals = document.querySelectorAll(".reveal");
@@ -39,10 +45,11 @@ function updateThemeIcon() {
   const currentTheme = html.dataset.theme;
   toggle.textContent = currentTheme === "dark" ? "🌙" : "☀️";
   
-  // Atualiza meta theme-color para iOS
+  // Atualiza meta theme-color (barra do navegador) com o fundo do tema atual
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
   if (themeColorMeta) {
-    themeColorMeta.content = currentTheme === "dark" ? "#0A0A0C" : "#F3F4F6";
+    const bg = getComputedStyle(html).getPropertyValue("--bg-primary").trim();
+    if (bg) themeColorMeta.content = bg;
   }
 }
 
@@ -50,15 +57,15 @@ function updateThemeIcon() {
 toggle.addEventListener("click", () => {
   const theme = html.dataset.theme === "dark" ? "light" : "dark";
   html.dataset.theme = theme;
-  localStorage.setItem("theme", theme);
+  try {
+    localStorage.setItem("theme", theme);
+  } catch (e) {
+    // modo privado / storage bloqueado: o tema vale só nesta visita
+  }
   updateThemeIcon();
 });
 
-// Carrega o tema salvo
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-  html.dataset.theme = savedTheme;
-}
+// O tema inicial (salvo ou prefers-color-scheme) já é aplicado no <head> para evitar flash
 updateThemeIcon();
 
 /* =========================
@@ -76,13 +83,22 @@ navMenuToggle?.addEventListener("click", () => {
   navMenuToggle.textContent = isOpen ? "×" : "☰";
 });
 
-navLinks.forEach(link => {
-  link.addEventListener("click", () => {
-    nav?.classList.remove("menu-open");
-    navMenuToggle?.setAttribute("aria-expanded", "false");
-    navMenuToggle?.setAttribute("aria-label", "Abrir menu");
-    if (navMenuToggle) navMenuToggle.textContent = "☰";
-  });
+function fecharMenu() {
+  if (!nav?.classList.contains("menu-open")) return;
+  nav.classList.remove("menu-open");
+  navMenuToggle?.setAttribute("aria-expanded", "false");
+  navMenuToggle?.setAttribute("aria-label", "Abrir menu");
+  if (navMenuToggle) navMenuToggle.textContent = "☰";
+}
+
+navLinks.forEach(link => link.addEventListener("click", fecharMenu));
+
+document.addEventListener("click", event => {
+  if (nav && !nav.contains(event.target)) fecharMenu();
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") fecharMenu();
 });
 
 window.addEventListener("scroll", () => {
@@ -116,6 +132,12 @@ const closeModal = document.querySelector(".close-modal");
 const lightbox = document.getElementById("image-lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
 const closeLightbox = document.getElementById("close-lightbox");
+const lightboxPrev = document.getElementById("lightbox-prev");
+const lightboxNext = document.getElementById("lightbox-next");
+let galleryImages = [];
+let galleryIndex = 0;
+
+const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22 viewBox=%220 0 320 180%22%3E%3Crect width=%22320%22 height=%22180%22 fill=%22%23111318%22/%3E%3Ctext x=%22160%22 y=%2295%22 fill=%22%2339D353%22 font-family=%22monospace%22 font-size=%2214%22 text-anchor=%22middle%22%3EImagem n%C3%A3o encontrada%3C/text%3E%3C/svg%3E';
 
 const projects = {
   korp: {
@@ -123,7 +145,11 @@ const projects = {
     desc: "Sistema corporativo com arquitetura de microsserviços, controle de concorrência com RowVersion, emissão e cancelamento de notas fiscais e geração de DANFE em PDF.",
     tech: ".NET 9 • Entity Framework Core • SQL Server • Angular 19 • Tailwind CSS • Docker Compose",
     link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
-    images: []
+    images: [
+      { src: "public/images/projects/korp-erp/estoque.png", alt: "Gestão de estoque" },
+      { src: "public/images/projects/korp-erp/faturamento.png", alt: "Faturamento e notas fiscais" },
+      { src: "public/images/projects/korp-erp/danfe-pdf.png", alt: "DANFE em PDF" }
+    ]
   },
   cripto: {
     title: "MINHA CRIPTO",
@@ -143,8 +169,24 @@ const projects = {
     link: "https://github.com/Soarezzsemj/Resumo-IA",
     liveLink: "https://resumo-ia.vercel.app/",
     images: [
-      { src: "ResumeAi/Resume2.png", alt: "Tela 1" },
-      { src: "ResumeAi/Resume3.png", alt: "Tela 2" }
+      { src: "ResumeAi/tela-inicial.png", alt: "Tela inicial" },
+      { src: "ResumeAi/resumo-gerado.png", alt: "Resumo gerado" },
+      { src: "ResumeAi/entrada-e-opcoes.png", alt: "Entrada de texto e opções" }
+    ]
+  },
+  target: {
+    title: "TARGET DESAFIO",
+    desc: "Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.",
+    tech: "C# • .NET • Console App",
+    link: "https://github.com/Soarezzsemj/TargetDesafio",
+    images: [
+      { src: "public/images/projects/target-desafio/menu.png", alt: "Menu principal do console" },
+      { src: "public/images/projects/target-desafio/comissoes.png", alt: "Comissão de cada vendedor" },
+      { src: "public/images/projects/target-desafio/detalhamento-vendas.png", alt: "Detalhamento das vendas" },
+      { src: "public/images/projects/target-desafio/menu-estoque.png", alt: "Menu da questão de estoque" },
+      { src: "public/images/projects/target-desafio/consulta-estoque.png", alt: "Consulta de estoque" },
+      { src: "public/images/projects/target-desafio/historico-movimentacoes.png", alt: "Histórico de movimentações" },
+      { src: "public/images/projects/target-desafio/juros.png", alt: "Cálculo de juros por atraso" }
     ]
   }
 };
@@ -154,6 +196,7 @@ document.querySelectorAll(".project-card").forEach(card => {
   card.addEventListener("click", () => {
     const projectKey = card.dataset.project;
     const project = projects[projectKey];
+    if (!project) return;
     
     modalTitle.textContent = project.title;
     modalDesc.textContent = project.desc;
@@ -172,17 +215,27 @@ document.querySelectorAll(".project-card").forEach(card => {
     // Adiciona galeria de imagens
     const gallery = document.getElementById("modal-gallery");
     gallery.innerHTML = "";
+    galleryImages = [];
     
     if (project.images && project.images.length > 0) {
-      project.images.forEach(img => {
+      project.images.forEach((img, index) => {
         const imgItem = document.createElement("button");
         imgItem.type = "button";
         imgItem.className = "modal-gallery-item";
         imgItem.setAttribute("aria-label", `Ampliar ${img.alt}`);
-        imgItem.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+        const imgEl = document.createElement("img");
+        imgEl.src = img.src;
+        imgEl.alt = img.alt;
+        imgEl.loading = "lazy";
+        imgEl.addEventListener("error", function onErr() {
+          imgEl.removeEventListener("error", onErr);
+          imgEl.src = PLACEHOLDER_IMG;
+        });
+        imgItem.appendChild(imgEl);
+        galleryImages.push(imgEl);
         imgItem.addEventListener("click", (event) => {
           event.stopPropagation();
-          abrirLightbox(img.src, img.alt);
+          abrirLightbox(index);
         });
         gallery.appendChild(imgItem);
       });
@@ -206,9 +259,21 @@ function fecharModal() {
 
 closeModal.addEventListener("click", fecharModal);
 
-function abrirLightbox(src, alt) {
-  lightboxImage.src = src;
-  lightboxImage.alt = alt;
+function mostrarImagemLightbox(index) {
+  const total = galleryImages.length;
+  if (!total) return;
+  galleryIndex = (index + total) % total;
+  const imgEl = galleryImages[galleryIndex];
+  // usa o src atual da miniatura (já trocado pelo placeholder se a imagem falhou)
+  lightboxImage.src = imgEl.src;
+  lightboxImage.alt = imgEl.alt;
+}
+
+function abrirLightbox(index) {
+  mostrarImagemLightbox(index);
+  const temVarias = galleryImages.length > 1;
+  lightboxPrev.hidden = !temVarias;
+  lightboxNext.hidden = !temVarias;
   lightbox.classList.remove("hidden");
 }
 
@@ -219,6 +284,23 @@ function fecharLightbox() {
 }
 
 closeLightbox.addEventListener("click", fecharLightbox);
+lightboxPrev.addEventListener("click", () => mostrarImagemLightbox(galleryIndex - 1));
+lightboxNext.addEventListener("click", () => mostrarImagemLightbox(galleryIndex + 1));
+
+// Swipe horizontal no lightbox (touch)
+let swipeStartX = 0;
+let swipeStartY = 0;
+lightbox.addEventListener("touchstart", (e) => {
+  swipeStartX = e.changedTouches[0].clientX;
+  swipeStartY = e.changedTouches[0].clientY;
+}, { passive: true });
+lightbox.addEventListener("touchend", (e) => {
+  const dx = e.changedTouches[0].clientX - swipeStartX;
+  const dy = e.changedTouches[0].clientY - swipeStartY;
+  if (galleryImages.length > 1 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+    mostrarImagemLightbox(galleryIndex + (dx < 0 ? 1 : -1));
+  }
+});
 lightbox.addEventListener("click", (e) => {
   if (e.target === lightbox) {
     fecharLightbox();
@@ -234,6 +316,10 @@ modal.addEventListener("click", (e) => {
 
 // Fecha modal com tecla ESC
 document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("hidden") && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+    mostrarImagemLightbox(galleryIndex + (e.key === "ArrowRight" ? 1 : -1));
+  }
+
   if (e.key === "Escape") {
     if (!lightbox.classList.contains("hidden")) {
       fecharLightbox();
@@ -371,16 +457,13 @@ const commandItems = [
   { label: "Ir para Home", action: () => navegarPara("#home") },
   { label: "Ir para Projetos", action: () => navegarPara("#projects") },
   { label: "Ir para Contato", action: () => navegarPara("#contact") },
-  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener") },
-  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener") },
-  { label: "Baixar Currículo (PDF)", action: () => window.open("curriculo.pdf", "_blank", "noopener") },
+  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
+  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
+  { label: "Baixar Currículo (PDF)", action: () => baixarCurriculo() },
   { label: "Copiar email", action: () => {
-    const emailField = document.getElementById("email");
-    if (emailField?.value) {
-      navigator.clipboard.writeText(emailField.value);
-    } else {
-      window.alert("Nenhum endereço de email informado.");
-    }
+    navigator.clipboard.writeText("5carloseduardo2007@gmail.com")
+      .then(() => alert("Email copiado: 5carloseduardo2007@gmail.com"))
+      .catch(() => alert("Email: 5carloseduardo2007@gmail.com"));
   } },
   { label: "Alternar tema claro/escuro", action: () => toggle.click() }
 ];
@@ -430,8 +513,18 @@ commandPalette.addEventListener("click", event => {
   if (event.target === commandPalette) fecharCommandPalette();
 });
 
+const isMac = (() => {
+  try {
+    const platform = navigator.userAgentData?.platform || navigator.platform || navigator.userAgent || "";
+    return /mac|iphone|ipad|ipod/i.test(platform);
+  } catch (e) {
+    return false;
+  }
+})();
+
 document.addEventListener("keydown", event => {
-  if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+  const modifier = isMac ? event.metaKey : event.ctrlKey;
+  if (modifier && event.key?.toLowerCase() === "k") {
     event.preventDefault();
     abrirCommandPalette();
   }
@@ -440,3 +533,191 @@ document.addEventListener("keydown", event => {
     fecharCommandPalette();
   }
 });
+
+/* =========================
+   PLATFORM DETECTION: ⌘K vs Ctrl K
+========================= */
+(function detectPlatform() {
+  const kbd = document.getElementById("command-hint-kbd");
+  if (kbd && !isMac) kbd.textContent = "Ctrl K";
+})();
+
+/* =========================
+   TOAST
+========================= */
+let toastTimer;
+function mostrarToast(mensagem) {
+  let toast = document.getElementById("toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.className = "toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    document.body.appendChild(toast);
+  }
+  toast.textContent = mensagem;
+  toast.classList.add("visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("visible"), 3200);
+}
+
+/* =========================
+   BAIXAR CV
+   Enquanto o PDF não existir em CURRICULO/, evita o 404 e mostra um aviso.
+========================= */
+const cvDisponivel = fetch(CV_URL, { method: "HEAD", cache: "no-store" })
+  .then(response => response.ok)
+  .catch(() => false);
+let cvStatus = null; // null = verificando, true/false = resultado
+cvDisponivel.then(ok => { cvStatus = ok; });
+
+function dispararDownloadCv() {
+  const link = document.createElement("a");
+  link.href = CV_URL;
+  link.download = CV_FILENAME;
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+function baixarCurriculo() {
+  cvDisponivel.then(ok => {
+    if (ok) dispararDownloadCv();
+    else mostrarToast("Currículo disponível em breve");
+  });
+}
+
+document.querySelectorAll("[data-cv-link]").forEach(link => {
+  link.href = CV_URL;
+  link.download = CV_FILENAME;
+  link.addEventListener("click", event => {
+    if (cvStatus === true) return;
+    event.preventDefault();
+    baixarCurriculo();
+  });
+});
+
+/* =========================
+   CONTRIBUIÇÕES NO GITHUB
+   API pública sem token; se falhar, volta para a imagem do ghchart.
+========================= */
+(function contribuicoesGithub() {
+  const usuario = "Soarezzsemj";
+  const container = document.getElementById("github-contributions");
+  const scroll = document.getElementById("contrib-scroll");
+  const chart = document.getElementById("contrib-chart");
+  const totalEl = document.getElementById("contrib-total");
+  const legend = document.getElementById("contrib-legend");
+  const tooltip = document.getElementById("contrib-tooltip");
+  if (!container || !chart) return;
+
+  const MESES_CURTOS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+  const textoContribuicoes = n => `${n} ${n === 1 ? "contribuição" : "contribuições"}`;
+
+  function usarFallback() {
+    chart.remove();
+    if (legend) legend.hidden = true;
+    if (totalEl) totalEl.textContent = "";
+    const img = document.createElement("img");
+    img.src = `https://ghchart.rshah.org/39D353/${usuario}`;
+    img.alt = `Gráfico de contribuições de ${usuario} no GitHub`;
+    img.loading = "lazy";
+    scroll.appendChild(img);
+  }
+
+  function criar(tag, className, texto) {
+    const el = document.createElement(tag);
+    el.className = className;
+    if (texto) el.textContent = texto;
+    return el;
+  }
+
+  function desenhar(dados) {
+    const dias = dados.contributions;
+    const total = dados.total?.lastYear ?? dias.reduce((soma, d) => soma + d.count, 0);
+    const primeiro = new Date(`${dias[0].date}T00:00:00Z`);
+    const offset = primeiro.getUTCDay(); // semanas começam no domingo
+    const semanas = Math.ceil((dias.length + offset) / 7);
+    const fragment = document.createDocumentFragment();
+
+    // Rótulos dos dias: Seg, Qua, Sex nas linhas 2, 4 e 6 da semana
+    [["Seg", 1], ["Qua", 3], ["Sex", 5]].forEach(([nome, dia]) => {
+      const label = criar("span", "contrib-day", nome);
+      label.style.gridRow = String(dia + 2);
+      fragment.appendChild(label);
+    });
+
+    const colunasComMes = [];
+    dias.forEach((dia, i) => {
+      const data = new Date(`${dia.date}T00:00:00Z`);
+      const posicao = i + offset;
+      const coluna = Math.floor(posicao / 7);
+      const linha = posicao % 7;
+
+      // Mês rotulado na semana que contém o dia 1 (e na 1ª coluna, se houver espaço)
+      if (data.getUTCDate() === 1 || i === 0) {
+        colunasComMes.push({ coluna, mes: data.getUTCMonth(), inicio: i === 0 });
+      }
+
+      const cell = criar("span", "contrib-cell");
+      cell.dataset.level = String(dia.level);
+      cell.dataset.tip = `${textoContribuicoes(dia.count)} em ${data.getUTCDate()} de ${MESES[data.getUTCMonth()]} de ${data.getUTCFullYear()}`;
+      cell.style.gridColumn = String(coluna + 2);
+      cell.style.gridRow = String(linha + 2);
+      fragment.appendChild(cell);
+    });
+
+    colunasComMes.forEach((item, idx) => {
+      const proximo = colunasComMes[idx + 1];
+      if (item.inicio && proximo && proximo.coluna - item.coluna < 3) return;
+      const label = criar("span", "contrib-month", MESES_CURTOS[item.mes]);
+      label.style.gridColumn = String(item.coluna + 2);
+      fragment.appendChild(label);
+    });
+
+    chart.style.setProperty("--contrib-weeks", String(semanas));
+    chart.setAttribute("aria-label", `${textoContribuicoes(total)} no último ano no GitHub de ${usuario}`);
+    chart.appendChild(fragment);
+    if (totalEl) totalEl.textContent = `${textoContribuicoes(total)} no último ano`;
+
+    // Em telas estreitas, começa mostrando a data mais recente
+    scroll.scrollLeft = scroll.scrollWidth;
+  }
+
+  function mostrarTooltip(cell) {
+    const caixa = container.getBoundingClientRect();
+    const alvo = cell.getBoundingClientRect();
+    tooltip.textContent = cell.dataset.tip;
+    tooltip.hidden = false;
+    const metade = tooltip.offsetWidth / 2;
+    const centro = alvo.left + alvo.width / 2 - caixa.left;
+    tooltip.style.left = `${Math.min(Math.max(centro, metade), caixa.width - metade)}px`;
+    tooltip.style.top = `${alvo.top - caixa.top}px`;
+  }
+
+  chart.addEventListener("pointerover", e => {
+    const cell = e.target.closest(".contrib-cell");
+    if (cell) mostrarTooltip(cell);
+  });
+  chart.addEventListener("pointerleave", () => { tooltip.hidden = true; });
+  scroll.addEventListener("scroll", () => { tooltip.hidden = true; }, { passive: true });
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+  fetch(`https://github-contributions-api.jogruber.de/v4/${usuario}?y=last`, { signal: controller.signal })
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(dados => {
+      if (!Array.isArray(dados?.contributions) || !dados.contributions.length) throw new Error("Resposta inválida");
+      desenhar(dados);
+    })
+    .catch(usarFallback)
+    .finally(() => clearTimeout(timeout));
+})();
+

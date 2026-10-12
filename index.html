@@ -2,13 +2,18 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
+  <script>/* no-FOUC theme */try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=t||(m?'dark':'light');}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Carlos Eduardo Soares - Desenvolvedor Full Stack</title>
   <meta name="description" content="Portfólio de Carlos Eduardo Soares, desenvolvedor Full Stack focado em backend, APIs e aplicações web modernas." />
-  <meta property="og:title" content="Carlos Eduardo Soares - Desenvolvedor Full Stack" />
-  <meta property="og:description" content="Portfólio de Carlos Eduardo Soares, desenvolvedor Full Stack focado em backend, APIs e aplicações web modernas." />
-  <meta property="og:image" content="cedev.png" />
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Carlos Eduardo Soares - Desenvolvedor Full Stack">
+  <meta property="og:description" content="Portfólio de Carlos Eduardo Soares, desenvolvedor Full Stack focado em backend, APIs e aplicações web modernas.">
+  <meta property="og:url" content="https://soarezzsemj.github.io/Portfolio-Carlos-Eduardo/">
+  <meta property="og:image" content="https://soarezzsemj.github.io/Portfolio-Carlos-Eduardo/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   
   
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -16,7 +21,9 @@
   <meta name="theme-color" content="#0A0A0C">
   
   
-  <link rel="icon" type="image/png" href="cedev.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,6 +33,8 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+
+<div class="bg-glows" aria-hidden="true"></div>
 
 <!-- Scroll Progress -->
 <div id="scroll-progress"></div>
@@ -59,7 +68,7 @@
       </p>
       <div class="hero-actions">
         <a href="#projects" class="btn ghost">▶ Ver Projetos</a>
-        <a href="curriculo.pdf" class="btn ghost" download>⌥ Baixar CV</a>
+        <a id="cv-btn" data-cv-link href="CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf" class="btn ghost" download="Carlos_Eduardo_Soares_CV_Portifolio.pdf" target="_blank" rel="noopener noreferrer">⌥ Baixar CV</a>
       </div>
     </div>
   </div>
@@ -67,19 +76,7 @@
   <div class="terminal-window code-terminal">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>portfolio.tsx</span></div>
     <div class="code-editor" aria-label="Código React de apresentação">
-      <ol class="code-lines">
-        <li><span class="syntax-keyword">import</span> { <span class="syntax-component">Developer</span> } <span class="syntax-keyword">from</span> <span class="syntax-string">'./carlos'</span>;</li>
-        <li></li>
-        <li><span class="syntax-keyword">const</span> <span class="syntax-component">Portfolio</span> = () =&gt; {</li>
-        <li>  <span class="syntax-keyword">return</span> (</li>
-        <li>    &lt;<span class="syntax-component">Developer</span></li>
-        <li>      name=<span class="syntax-string">"Carlos Eduardo"</span></li>
-        <li>      role=<span class="syntax-string">"Full Stack Developer"</span></li>
-        <li>      stack={[<span class="syntax-string">'.NET'</span>, <span class="syntax-string">'React'</span>, <span class="syntax-string">'Flutter'</span>]}</li>
-        <li>    /&gt;</li>
-        <li>  );</li>
-        <li>};</li>
-      </ol>
+      <pre class="code-pre"><code class="code-lines"><span class="line"><span class="syntax-keyword">import</span> { <span class="syntax-component">Developer</span> } <span class="syntax-keyword">from</span> <span class="syntax-string">'./carlos'</span>;</span><span class="line"></span><span class="line"><span class="syntax-keyword">const</span> <span class="syntax-component">Portfolio</span> = () =&gt; {</span><span class="line">  <span class="syntax-keyword">return</span> (</span><span class="line">    &lt;<span class="syntax-component">Developer</span></span><span class="line">      name=<span class="syntax-string">"Carlos Eduardo"</span></span><span class="line">      role=<span class="syntax-string">"Full Stack Developer"</span></span><span class="line">      stack={[<span class="syntax-string">'.NET'</span>, <span class="syntax-string">'React'</span>, <span class="syntax-string">'Flutter'</span>]}</span><span class="line">    /&gt;</span><span class="line">  );</span><span class="line">};</span></code></pre>
     </div>
   </div>
 </section>
@@ -136,7 +133,7 @@
       <div class="tech-icon"></div>
       <h3>Ferramentas</h3>
       <div class="tech-pills">
-        <span><i class="devicon-git-plain"></i>Git &amp; GitHub</span><span><i class="devicon-azure-plain"></i>Azure DevOps</span><span><i class="devicon-postman-plain"></i>Postman</span>
+        <span><i class="devicon-git-plain"></i>Git &amp; GitHub</span><span><i class="devicon-azure-plain"></i>Azure DevOps</span><span><i class="devicon-postman-plain"></i>Postman</span><span><i class="devicon-docker-plain"></i>Docker</span>
       </div>
     </div>
 
@@ -179,7 +176,7 @@
           <span>.NET 9</span><span>Angular 19</span><span>Docker</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
       </div>
     </article>
 
@@ -192,7 +189,7 @@
           <span>Swift</span><span>Node.js</span><span>REST API</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot swift"></i>Swift</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Minha-Cripto" target="_blank" rel="noopener">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Minha-Cripto" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
       </div>
     </article>
 
@@ -205,7 +202,20 @@
           <span>React</span><span>Node.js</span><span>IA</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot typescript"></i>TypeScript</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Resumo-IA" target="_blank" rel="noopener">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Resumo-IA" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
+      </div>
+    </article>
+
+    <article class="project-card" data-project="target">
+      <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>TargetDesafio</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status">Teste técnico</span>
+        <p>Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.</p>
+        <div class="project-tech">
+          <span>C#</span><span>.NET</span><span>Console App</span>
+        </div>
+        <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/TargetDesafio" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
       </div>
     </article>
 
@@ -239,7 +249,7 @@
           <h4>Infraero</h4>
           <p class="commit-role">Desenvolvedor</p>
           <p>App VIA (Flutter) + sistema DEMANDAS (C#) para gestão de aeroportos.</p>
-          <div class="commit-badges"><span>Flutter</span><span>C#</span></div>
+          <div class="commit-badges"><span>Flutter</span><span>Dart</span><span>C#</span><span>.NET</span><span>SQL Server</span><span>REST APIs</span><span>Azure DevOps</span><span>Git &amp; GitHub</span></div>
         </article>
         <article class="commit-entry">
           <div class="commit-meta"><code>c8d04f1</code><span>HEAD -&gt; main</span><time>05/2025 - Presente</time></div>
@@ -251,7 +261,8 @@
           <div class="commit-meta"><code>7b21e4a</code><span>HEAD -&gt; main</span><time>04/2025 - 05/2025</time></div>
           <h4>HackaTruck - Instituto Eldorado</h4>
           <p class="commit-role">Desenvolvedor iOS</p>
-          <div class="commit-badges"><span>Swift</span><span>iOS</span></div>
+          <p>Desenvolvimento de apps iOS em Swift com serviços de nuvem e serviços cognitivos.</p>
+          <div class="commit-badges"><span>Swift</span><span>iOS</span><span>SwiftUI</span><span>UIKit</span><span>Cloud Services</span><span>Serviços Cognitivos</span><span>Git &amp; GitHub</span></div>
         </article>
       </div>
     </div>
@@ -289,9 +300,22 @@
         </article>
       </div>
     </div>
-    <div class="about-block github-contributions">
-      <h3>Contribuições no GitHub</h3>
-      <img src="https://ghchart.rshah.org/39D353/Soarezzsemj" alt="Gráfico de contribuições de Soarezzsemj no GitHub" loading="lazy">
+    <div class="about-block github-contributions" id="github-contributions">
+      <div class="contrib-header">
+        <h3>Contribuições no GitHub</h3>
+        <span class="contrib-total" id="contrib-total"></span>
+      </div>
+      <div class="contrib-scroll" id="contrib-scroll">
+        <div class="contrib-chart" id="contrib-chart" role="img" aria-label="Gráfico de contribuições de Soarezzsemj no GitHub"></div>
+        <noscript><img src="https://ghchart.rshah.org/39D353/Soarezzsemj" alt="Gráfico de contribuições de Soarezzsemj no GitHub" loading="lazy"></noscript>
+      </div>
+      <div class="contrib-tooltip" id="contrib-tooltip" role="tooltip" hidden></div>
+      <div class="contrib-footer">
+        <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer">Ver perfil no GitHub →</a>
+        <div class="contrib-legend" id="contrib-legend" aria-hidden="true">
+          <span>Menos</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span>Mais</span>
+        </div>
+      </div>
     </div>
     </div>
   </div>
@@ -317,17 +341,17 @@
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>enviar_mensagem.ts</span></div>
     <h3 class="contact-form-title">Enviar mensagem</h3>
     <div class="social-links">
-    <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+    <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
       </svg>
     </a>
-    <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener" class="social-icon" aria-label="GitHub">
+    <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
       </svg>
     </a>
-    <a href="https://instagram.com/soarezzsemj" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram">
+    <a href="https://instagram.com/soarezzsemj" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
       </svg>
@@ -366,16 +390,16 @@
       <a href="#home">Home</a><a href="#tech">Stack</a><a href="#projects">Projetos</a><a href="#about">Sobre</a><a href="#contact">Contato</a>
     </nav>
     <div class="footer-socials">
-      <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
-      <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg></a>
-      <a href="https://instagram.com/soarezzsemj" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></a>
+      <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+      <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg></a>
+      <a href="https://instagram.com/soarezzsemj" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
     </div>
     <a class="back-to-top" href="#home">Voltar ao topo ↑</a>
   </div>
 </footer>
 
-<button type="button" class="command-hint" aria-label="Abrir menu de comandos" title="Abrir menu de comandos">
-  <span aria-hidden="true">⌘</span><span class="command-hint-label">Pressione <kbd>⌘K</kbd></span>
+<button type="button" class="command-hint" id="command-hint-btn" aria-label="Abrir menu de comandos" title="Abrir menu de comandos">
+  <span aria-hidden="true" class="command-hint-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span><span class="command-hint-label">Pressione <kbd id="command-hint-kbd">⌘K</kbd></span>
 </button>
 <div id="command-palette" class="command-palette hidden" role="dialog" aria-modal="true" aria-label="Command palette">
   <div class="command-palette-content">
@@ -398,10 +422,10 @@
     <div id="modal-gallery" class="modal-gallery"></div>
     
     <div class="modal-links">
-      <a id="modal-live-link" target="_blank" class="modal-live-btn" style="display: none;">
+      <a id="modal-live-link" target="_blank" rel="noopener noreferrer" class="modal-live-btn" style="display: none;">
         🚀 Ver Versão Online
       </a>
-      <a id="modal-link" target="_blank" class="modal-repo-link">
+      <a id="modal-link" target="_blank" rel="noopener noreferrer" class="modal-repo-link">
         Ver repositório →
       </a>
     </div>
@@ -410,7 +434,9 @@
 
 <div id="image-lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Screenshot ampliada">
   <button id="close-lightbox" class="close-lightbox" aria-label="Fechar imagem ampliada">✕</button>
+  <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Imagem anterior">‹</button>
   <img id="lightbox-image" src="" alt="">
+  <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Próxima imagem">›</button>
 </div>
 
 <script src="script.js"></script>
