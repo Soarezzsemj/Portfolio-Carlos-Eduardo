@@ -395,16 +395,13 @@ const commandItems = [
   { label: "Ir para Home", action: () => navegarPara("#home") },
   { label: "Ir para Projetos", action: () => navegarPara("#projects") },
   { label: "Ir para Contato", action: () => navegarPara("#contact") },
-  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener") },
-  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener") },
-  { label: "Baixar Currículo (PDF)", action: () => window.open("curriculo.pdf", "_blank", "noopener") },
+  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
+  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
+  { label: "Baixar Currículo (PDF)", action: () => window.open("curriculo.pdf", "_blank", "noopener noreferrer") },
   { label: "Copiar email", action: () => {
-    const emailField = document.getElementById("email");
-    if (emailField?.value) {
-      navigator.clipboard.writeText(emailField.value);
-    } else {
-      window.alert("Nenhum endereço de email informado.");
-    }
+    navigator.clipboard.writeText("5carloseduardo2007@gmail.com")
+      .then(() => alert("Email copiado: 5carloseduardo2007@gmail.com"))
+      .catch(() => alert("Email: 5carloseduardo2007@gmail.com"));
   } },
   { label: "Alternar tema claro/escuro", action: () => toggle.click() }
 ];
@@ -464,3 +461,23 @@ document.addEventListener("keydown", event => {
     fecharCommandPalette();
   }
 });
+
+/* =========================
+   PLATFORM DETECTION: ⌘K vs Ctrl K
+========================= */
+(function detectPlatform() {
+  const isMac = (() => {
+    try {
+      const p = navigator.userAgentData?.platform || navigator.platform || "";
+      return /mac/i.test(p);
+    } catch(e) { return false; }
+  })();
+
+  const kbd = document.getElementById("command-hint-kbd");
+  const icon = document.querySelector(".command-hint-icon");
+
+  if (!isMac) {
+    if (kbd) kbd.textContent = "Ctrl K";
+    if (icon) icon.textContent = "Ctrl";
+  }
+})();
