@@ -1,16 +1,13 @@
 # Screenshots do Projeto Korp ERP
 
-Esta pasta contém as imagens de demonstração da galeria do modal do projeto **Korp ERP**.
+Esta pasta contém as imagens da galeria do modal do projeto **Korp ERP** (todas são prints reais).
 
-## Arquivos:
-- `01-login.png` (1280x720) — Tela de autenticação e login.
-- `02-dashboard.png` (1280x720) — Visão geral de métricas corporativas.
-- `03-faturamento.png` (1280x720) — Módulo de emissão de faturamento.
-- `04-estoque.png` (1280x720) — Controle de movimentação de estoque.
-- `05-danfe-pdf.png` (1280x720) — Visualização de DANFE / nota fiscal gerada em PDF.
+## Arquivos (na ordem da galeria):
+- `estoque.png` (1278x718) — Gestão de Estoque: cadastro de produto e itens em estoque com saldo atual.
+- `faturamento.png` (1280x720) — Faturamento e Notas Fiscais: lista de notas emitidas com status (Fechada, Aberta, Cancelada).
+- `danfe-pdf.png` (902x579) — DANFE / Nota Fiscal gerada em PDF (NF-0003).
 
-## Como substituir:
-Para exibir capturas de tela reais do sistema:
-1. Gere os prints das telas em resolução 16:9 (recomendado: 1280x720 ou 1920x1080).
-2. Substitua os arquivos desta pasta mantendo exatamente os mesmos nomes (`01-login.png`, `02-dashboard.png`, etc.).
-3. O portfólio carregará automaticamente as novas imagens na galeria e no lightbox.
+## Como substituir ou adicionar:
+1. Gere os prints das telas (recomendado: 16:9, 1280x720 ou 1920x1080).
+2. Use nomes simples: minúsculas, sem espaços nem acentos, hífen como separador e extensão `.png`.
+3. Para substituir, mantenha exatamente o mesmo nome; para adicionar, inclua o arquivo no array `images` do projeto `korp` em `script.js`.

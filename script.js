@@ -146,11 +146,9 @@ const projects = {
     tech: ".NET 9 • Entity Framework Core • SQL Server • Angular 19 • Tailwind CSS • Docker Compose",
     link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
     images: [
-      { src: "public/images/projects/korp-erp/01-login.png", alt: "Tela de Login" },
-      { src: "public/images/projects/korp-erp/02-dashboard.png", alt: "Dashboard" },
-      { src: "public/images/projects/korp-erp/03-faturamento.png", alt: "Faturamento" },
-      { src: "public/images/projects/korp-erp/04-estoque.png", alt: "Estoque" },
-      { src: "public/images/projects/korp-erp/05-danfe-pdf.png", alt: "DANFE em PDF" }
+      { src: "public/images/projects/korp-erp/estoque.png", alt: "Gestão de estoque" },
+      { src: "public/images/projects/korp-erp/faturamento.png", alt: "Faturamento e notas fiscais" },
+      { src: "public/images/projects/korp-erp/danfe-pdf.png", alt: "DANFE em PDF" }
     ]
   },
   cripto: {
