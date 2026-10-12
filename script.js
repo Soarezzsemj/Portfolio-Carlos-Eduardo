@@ -45,10 +45,11 @@ function updateThemeIcon() {
   const currentTheme = html.dataset.theme;
   toggle.textContent = currentTheme === "dark" ? "🌙" : "☀️";
   
-  // Atualiza meta theme-color para iOS
+  // Atualiza meta theme-color (barra do navegador) com o fundo do tema atual
   const themeColorMeta = document.querySelector('meta[name="theme-color"]');
   if (themeColorMeta) {
-    themeColorMeta.content = currentTheme === "dark" ? "#0A0A0C" : "#F3F4F6";
+    const bg = getComputedStyle(html).getPropertyValue("--bg-primary").trim();
+    if (bg) themeColorMeta.content = bg;
   }
 }
 
@@ -56,15 +57,15 @@ function updateThemeIcon() {
 toggle.addEventListener("click", () => {
   const theme = html.dataset.theme === "dark" ? "light" : "dark";
   html.dataset.theme = theme;
-  localStorage.setItem("theme", theme);
+  try {
+    localStorage.setItem("theme", theme);
+  } catch (e) {
+    // modo privado / storage bloqueado: o tema vale só nesta visita
+  }
   updateThemeIcon();
 });
 
-// Carrega o tema salvo
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-  html.dataset.theme = savedTheme;
-}
+// O tema inicial (salvo ou prefers-color-scheme) já é aplicado no <head> para evitar flash
 updateThemeIcon();
 
 /* =========================
