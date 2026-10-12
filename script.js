@@ -1,4 +1,10 @@
 /* =========================
+   CURRÍCULO (caminho único)
+========================= */
+const CV_URL = "CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf";
+const CV_FILENAME = "Carlos_Eduardo_Soares_CV_Portifolio.pdf";
+
+/* =========================
    REVEAL ANIMATION
 ========================= */
 const reveals = document.querySelectorAll(".reveal");
@@ -440,7 +446,7 @@ const commandItems = [
   { label: "Ir para Contato", action: () => navegarPara("#contact") },
   { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
   { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
-  { label: "Baixar Currículo (PDF)", action: () => window.open("curriculo.pdf", "_blank", "noopener noreferrer") },
+  { label: "Baixar Currículo (PDF)", action: () => baixarCurriculo() },
   { label: "Copiar email", action: () => {
     navigator.clipboard.writeText("5carloseduardo2007@gmail.com")
       .then(() => alert("Email copiado: 5carloseduardo2007@gmail.com"))
@@ -522,3 +528,60 @@ document.addEventListener("keydown", event => {
   const kbd = document.getElementById("command-hint-kbd");
   if (kbd && !isMac) kbd.textContent = "Ctrl K";
 })();
+
+/* =========================
+   TOAST
+========================= */
+let toastTimer;
+function mostrarToast(mensagem) {
+  let toast = document.getElementById("toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.className = "toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    document.body.appendChild(toast);
+  }
+  toast.textContent = mensagem;
+  toast.classList.add("visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("visible"), 3200);
+}
+
+/* =========================
+   BAIXAR CV
+   Enquanto o PDF não existir em CURRICULO/, evita o 404 e mostra um aviso.
+========================= */
+const cvDisponivel = fetch(CV_URL, { method: "HEAD", cache: "no-store" })
+  .then(response => response.ok)
+  .catch(() => false);
+let cvStatus = null; // null = verificando, true/false = resultado
+cvDisponivel.then(ok => { cvStatus = ok; });
+
+function dispararDownloadCv() {
+  const link = document.createElement("a");
+  link.href = CV_URL;
+  link.download = CV_FILENAME;
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+function baixarCurriculo() {
+  cvDisponivel.then(ok => {
+    if (ok) dispararDownloadCv();
+    else mostrarToast("Currículo disponível em breve");
+  });
+}
+
+document.querySelectorAll("[data-cv-link]").forEach(link => {
+  link.href = CV_URL;
+  link.download = CV_FILENAME;
+  link.addEventListener("click", event => {
+    if (cvStatus === true) return;
+    event.preventDefault();
+    baixarCurriculo();
+  });
+});
