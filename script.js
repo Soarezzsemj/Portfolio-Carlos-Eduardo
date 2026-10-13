@@ -3,6 +3,28 @@
 ========================= */
 const CV_URL = "CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf";
 const CV_FILENAME = "Carlos_Eduardo_Soares_CV_Portifolio.pdf";
+// Currículo em inglês (opcional): enquanto for null, o modo EN usa o PDF em português
+const CV_URL_EN = null;
+const CV_FILENAME_EN = null;
+
+/* =========================
+   I18N (helpers; dicionários em i18n.js)
+========================= */
+const t = window.I18N?.t ?? ((chave) => chave);
+const idiomaAtual = () => window.I18N?.getLang() ?? "pt";
+const localeAtual = () => window.I18N?.locale() ?? "pt-BR";
+const aoMudarIdioma = fn => window.I18N?.onChange(fn);
+
+// Marca o elemento com a chave para ele ser retraduzido sozinho quando o idioma mudar
+function traduzirTexto(el, chave) {
+  el.dataset.i18n = chave;
+  el.textContent = t(chave);
+}
+
+function traduzirAttr(el, attr, chave) {
+  el.dataset.i18nAttr = `${attr}:${chave}`;
+  el.setAttribute(attr, t(chave));
+}
 
 /* =========================
    REVEAL ANIMATION
@@ -79,7 +101,7 @@ const navMenuToggle = document.getElementById("nav-menu-toggle");
 navMenuToggle?.addEventListener("click", () => {
   const isOpen = nav?.classList.toggle("menu-open") ?? false;
   navMenuToggle.setAttribute("aria-expanded", String(isOpen));
-  navMenuToggle.setAttribute("aria-label", isOpen ? "Fechar menu" : "Abrir menu");
+  traduzirAttr(navMenuToggle, "aria-label", isOpen ? "nav.closeMenu" : "nav.openMenu");
   navMenuToggle.textContent = isOpen ? "×" : "☰";
 });
 
@@ -87,8 +109,10 @@ function fecharMenu() {
   if (!nav?.classList.contains("menu-open")) return;
   nav.classList.remove("menu-open");
   navMenuToggle?.setAttribute("aria-expanded", "false");
-  navMenuToggle?.setAttribute("aria-label", "Abrir menu");
-  if (navMenuToggle) navMenuToggle.textContent = "☰";
+  if (navMenuToggle) {
+    traduzirAttr(navMenuToggle, "aria-label", "nav.openMenu");
+    navMenuToggle.textContent = "☰";
+  }
 }
 
 navLinks.forEach(link => link.addEventListener("click", fecharMenu));
@@ -137,59 +161,77 @@ const lightboxNext = document.getElementById("lightbox-next");
 let galleryImages = [];
 let galleryIndex = 0;
 
-const PLACEHOLDER_IMG = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22320%22 height=%22180%22 viewBox=%220 0 320 180%22%3E%3Crect width=%22320%22 height=%22180%22 fill=%22%23111318%22/%3E%3Ctext x=%22160%22 y=%2295%22 fill=%22%2339D353%22 font-family=%22monospace%22 font-size=%2214%22 text-anchor=%22middle%22%3EImagem n%C3%A3o encontrada%3C/text%3E%3C/svg%3E';
+// Placeholder gerado no idioma ativo (o texto aparece dentro da imagem)
+function placeholderImg() {
+  const texto = t("modal.imageNotFound").replace(/[<>&]/g, "");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180"><rect width="320" height="180" fill="#111318"/><text x="160" y="95" fill="#39D353" font-family="monospace" font-size="14" text-anchor="middle">${texto}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
 
+// Textos (título, descrição, tecnologias, alt) ficam em i18n.js: project.<chave>.*
 const projects = {
   korp: {
-    title: "KORP ERP — FATURAMENTO & ESTOQUE",
-    desc: "Sistema corporativo com arquitetura de microsserviços, controle de concorrência com RowVersion, emissão e cancelamento de notas fiscais e geração de DANFE em PDF.",
-    tech: ".NET 9 • Entity Framework Core • SQL Server • Angular 19 • Tailwind CSS • Docker Compose",
     link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
     images: [
-      { src: "public/images/projects/korp-erp/estoque.png", alt: "Gestão de estoque" },
-      { src: "public/images/projects/korp-erp/faturamento.png", alt: "Faturamento e notas fiscais" },
-      { src: "public/images/projects/korp-erp/danfe-pdf.png", alt: "DANFE em PDF" }
+      { src: "public/images/projects/korp-erp/estoque.png", alt: "project.korp.img.estoque" },
+      { src: "public/images/projects/korp-erp/faturamento.png", alt: "project.korp.img.faturamento" },
+      { src: "public/images/projects/korp-erp/danfe-pdf.png", alt: "project.korp.img.danfe" }
     ]
   },
   cripto: {
-    title: "MINHA CRIPTO",
-    desc: "App mobile focado em criptomoedas com usabilidade e segurança. Desenvolvido para facilitar transações e acompanhamento de ativos digitais.",
-    tech: "Swift • Node.js • API REST",
     link: "https://github.com/Soarezzsemj/Minha-Cripto",
     images: [
-      { src: "MinhaCripto/cel2.png", alt: "Tela 2" },
-      { src: "MinhaCripto/cel3.png", alt: "Tela 3" },
-      { src: "MinhaCripto/cel4.png", alt: "Tela 4" }
+      { src: "MinhaCripto/cel2.png", alt: "project.cripto.img.tela2" },
+      { src: "MinhaCripto/cel3.png", alt: "project.cripto.img.tela3" },
+      { src: "MinhaCripto/cel4.png", alt: "project.cripto.img.tela4" }
     ]
   },
   resume: {
-    title: "RESUME AI",
-    desc: "Aplicação full stack para geração automática de resumos usando inteligência artificial. Interface moderna e responsiva.",
-    tech: "React • Node.js • TypeScript • IA",
     link: "https://github.com/Soarezzsemj/Resumo-IA",
     liveLink: "https://resumo-ia.vercel.app/",
     images: [
-      { src: "ResumeAi/tela-inicial.png", alt: "Tela inicial" },
-      { src: "ResumeAi/resumo-gerado.png", alt: "Resumo gerado" },
-      { src: "ResumeAi/entrada-e-opcoes.png", alt: "Entrada de texto e opções" }
+      { src: "ResumeAi/tela-inicial.png", alt: "project.resume.img.inicial" },
+      { src: "ResumeAi/resumo-gerado.png", alt: "project.resume.img.resumo" },
+      { src: "ResumeAi/entrada-e-opcoes.png", alt: "project.resume.img.entrada" }
     ]
   },
   target: {
-    title: "TARGET DESAFIO",
-    desc: "Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.",
-    tech: "C# • .NET • Console App",
     link: "https://github.com/Soarezzsemj/TargetDesafio",
     images: [
-      { src: "public/images/projects/target-desafio/menu.png", alt: "Menu principal do console" },
-      { src: "public/images/projects/target-desafio/comissoes.png", alt: "Comissão de cada vendedor" },
-      { src: "public/images/projects/target-desafio/detalhamento-vendas.png", alt: "Detalhamento das vendas" },
-      { src: "public/images/projects/target-desafio/menu-estoque.png", alt: "Menu da questão de estoque" },
-      { src: "public/images/projects/target-desafio/consulta-estoque.png", alt: "Consulta de estoque" },
-      { src: "public/images/projects/target-desafio/historico-movimentacoes.png", alt: "Histórico de movimentações" },
-      { src: "public/images/projects/target-desafio/juros.png", alt: "Cálculo de juros por atraso" }
+      { src: "public/images/projects/target-desafio/menu.png", alt: "project.target.img.menu" },
+      { src: "public/images/projects/target-desafio/comissoes.png", alt: "project.target.img.comissoes" },
+      { src: "public/images/projects/target-desafio/detalhamento-vendas.png", alt: "project.target.img.vendas" },
+      { src: "public/images/projects/target-desafio/menu-estoque.png", alt: "project.target.img.menuEstoque" },
+      { src: "public/images/projects/target-desafio/consulta-estoque.png", alt: "project.target.img.consulta" },
+      { src: "public/images/projects/target-desafio/historico-movimentacoes.png", alt: "project.target.img.historico" },
+      { src: "public/images/projects/target-desafio/juros.png", alt: "project.target.img.juros" }
     ]
   }
 };
+
+let projetoAberto = null;
+
+// Textos do modal no idioma ativo; a galeria é atualizada no lugar (sem recriar, mantém o foco)
+function traduzirModal() {
+  if (!projetoAberto) return;
+  const project = projects[projetoAberto];
+  modalTitle.textContent = t(`project.${projetoAberto}.title`);
+  modalDesc.textContent = t(`project.${projetoAberto}.desc`);
+  modalTech.textContent = t("modal.tech", { tech: t(`project.${projetoAberto}.tech`) });
+
+  document.querySelectorAll("#modal-gallery .modal-gallery-item").forEach((item, index) => {
+    const alt = t(project.images[index].alt);
+    const imgEl = item.querySelector("img");
+    item.setAttribute("aria-label", t("modal.zoom", { alt }));
+    imgEl.alt = alt;
+    if (imgEl.dataset.falhou) imgEl.src = placeholderImg();
+  });
+
+  if (!lightbox.classList.contains("hidden") && galleryImages[galleryIndex]) {
+    lightboxImage.alt = galleryImages[galleryIndex].alt;
+    if (galleryImages[galleryIndex].dataset.falhou) lightboxImage.src = galleryImages[galleryIndex].src;
+  }
+}
 
 // Abre modal ao clicar em um projeto
 document.querySelectorAll(".project-card").forEach(card => {
@@ -197,12 +239,10 @@ document.querySelectorAll(".project-card").forEach(card => {
     const projectKey = card.dataset.project;
     const project = projects[projectKey];
     if (!project) return;
-    
-    modalTitle.textContent = project.title;
-    modalDesc.textContent = project.desc;
-    modalTech.textContent = `Tecnologias: ${project.tech}`;
+
+    projetoAberto = projectKey;
     modalLink.href = project.link;
-    
+
     // Botão de versão online (se existir)
     const liveBtn = document.getElementById("modal-live-link");
     if (project.liveLink) {
@@ -211,25 +251,24 @@ document.querySelectorAll(".project-card").forEach(card => {
     } else {
       liveBtn.style.display = "none";
     }
-    
+
     // Adiciona galeria de imagens
     const gallery = document.getElementById("modal-gallery");
     gallery.innerHTML = "";
     galleryImages = [];
-    
+
     if (project.images && project.images.length > 0) {
       project.images.forEach((img, index) => {
         const imgItem = document.createElement("button");
         imgItem.type = "button";
         imgItem.className = "modal-gallery-item";
-        imgItem.setAttribute("aria-label", `Ampliar ${img.alt}`);
         const imgEl = document.createElement("img");
         imgEl.src = img.src;
-        imgEl.alt = img.alt;
         imgEl.loading = "lazy";
         imgEl.addEventListener("error", function onErr() {
           imgEl.removeEventListener("error", onErr);
-          imgEl.src = PLACEHOLDER_IMG;
+          imgEl.dataset.falhou = "true";
+          imgEl.src = placeholderImg();
         });
         imgItem.appendChild(imgEl);
         galleryImages.push(imgEl);
@@ -240,11 +279,14 @@ document.querySelectorAll(".project-card").forEach(card => {
         gallery.appendChild(imgItem);
       });
     }
-    
+
+    traduzirModal();
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   });
 });
+
+aoMudarIdioma(traduzirModal);
 
 document.querySelectorAll(".repo-action").forEach(link => {
   link.addEventListener("click", event => event.stopPropagation());
@@ -253,6 +295,7 @@ document.querySelectorAll(".repo-action").forEach(link => {
 // Fecha modal
 function fecharModal() {
   fecharLightbox();
+  projetoAberto = null;
   modal.classList.add("hidden");
   document.body.style.overflow = ""; // Restaura scroll do body
 }
@@ -360,11 +403,10 @@ contactForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   
   const submitButton = contactForm.querySelector('button[type="submit"]');
-  const originalText = submitButton.textContent;
-  
-  // Desabilita o botão e mostra loading
+
+  // Desabilita o botão e mostra loading (data-i18n mantém o texto certo se o idioma mudar no meio)
   submitButton.disabled = true;
-  submitButton.textContent = "Enviando...";
+  traduzirTexto(submitButton, "form.sending");
   
   // Esconde mensagens anteriores
   formStatus.classList.add("hidden");
@@ -383,7 +425,7 @@ contactForm.addEventListener("submit", async (e) => {
     
     if (data.success) {
       // Sucesso
-      formStatus.textContent = "✓ Mensagem enviada com sucesso! Entrarei em contato em breve.";
+      traduzirTexto(formStatus, "form.success");
       formStatus.classList.remove("hidden");
       formStatus.classList.add("success");
       contactForm.reset();
@@ -393,14 +435,14 @@ contactForm.addEventListener("submit", async (e) => {
     }
   } catch (error) {
     // Erro na requisição
-    formStatus.textContent = "✗ Erro ao enviar mensagem. Tente novamente mais tarde.";
+    traduzirTexto(formStatus, "form.error");
     formStatus.classList.remove("hidden");
     formStatus.classList.add("error");
     console.error("Erro:", error);
   } finally {
     // Reabilita o botão
     submitButton.disabled = false;
-    submitButton.textContent = originalText;
+    traduzirTexto(submitButton, "form.submit");
   }
 });
 
@@ -454,18 +496,20 @@ const commandActions = document.getElementById("command-actions");
 const commandHint = document.querySelector(".command-hint");
 
 const commandItems = [
-  { label: "Ir para Home", action: () => navegarPara("#home") },
-  { label: "Ir para Projetos", action: () => navegarPara("#projects") },
-  { label: "Ir para Contato", action: () => navegarPara("#contact") },
-  { label: "Ver GitHub", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
-  { label: "Ver LinkedIn", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
-  { label: "Baixar Currículo (PDF)", action: () => baixarCurriculo() },
-  { label: "Copiar email", action: () => {
-    navigator.clipboard.writeText("5carloseduardo2007@gmail.com")
-      .then(() => alert("Email copiado: 5carloseduardo2007@gmail.com"))
-      .catch(() => alert("Email: 5carloseduardo2007@gmail.com"));
+  { label: "palette.home", action: () => navegarPara("#home") },
+  { label: "palette.projects", action: () => navegarPara("#projects") },
+  { label: "palette.contact", action: () => navegarPara("#contact") },
+  { label: "palette.github", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
+  { label: "palette.linkedin", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
+  { label: "palette.cv", action: () => baixarCurriculo() },
+  { label: "palette.copyEmail", action: () => {
+    const email = "5carloseduardo2007@gmail.com";
+    navigator.clipboard.writeText(email)
+      .then(() => alert(t("palette.emailCopied", { email })))
+      .catch(() => alert(t("palette.emailFallback", { email })));
   } },
-  { label: "Alternar tema claro/escuro", action: () => toggle.click() }
+  { label: "palette.theme", action: () => toggle.click() },
+  { label: "palette.language", action: () => window.I18N?.setLang(idiomaAtual() === "pt" ? "en" : "pt") }
 ];
 
 function navegarPara(selector) {
@@ -475,12 +519,12 @@ function navegarPara(selector) {
 function renderCommandActions(query = "") {
   commandActions.innerHTML = "";
   commandItems
-    .filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
+    .filter(item => t(item.label).toLowerCase().includes(query.toLowerCase()))
     .forEach(item => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "command-action";
-      button.textContent = item.label;
+      button.textContent = t(item.label);
       button.addEventListener("click", () => {
         item.action();
         fecharCommandPalette();
@@ -509,6 +553,18 @@ function fecharCommandPalette() {
 }
 
 commandSearch.addEventListener("input", () => renderCommandActions(commandSearch.value));
+
+// Paleta aberta durante a troca de idioma: refaz a lista e devolve o foco para o mesmo item
+aoMudarIdioma(() => {
+  if (commandPalette.classList.contains("hidden")) return;
+  const botoes = [...commandActions.querySelectorAll(".command-action")];
+  const indiceFoco = botoes.indexOf(document.activeElement);
+  renderCommandActions(commandSearch.value);
+  if (indiceFoco >= 0) {
+    const novos = commandActions.querySelectorAll(".command-action");
+    (novos[Math.min(indiceFoco, novos.length - 1)] ?? commandSearch).focus();
+  }
+});
 commandPalette.addEventListener("click", event => {
   if (event.target === commandPalette) fecharCommandPalette();
 });
@@ -546,7 +602,8 @@ document.addEventListener("keydown", event => {
    TOAST
 ========================= */
 let toastTimer;
-function mostrarToast(mensagem) {
+// Recebe a chave do dicionário; com data-i18n o toast visível também troca de idioma
+function mostrarToast(chave) {
   let toast = document.getElementById("toast");
   if (!toast) {
     toast = document.createElement("div");
@@ -556,7 +613,7 @@ function mostrarToast(mensagem) {
     toast.setAttribute("aria-live", "polite");
     document.body.appendChild(toast);
   }
-  toast.textContent = mensagem;
+  traduzirTexto(toast, chave);
   toast.classList.add("visible");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove("visible"), 3200);
@@ -566,37 +623,62 @@ function mostrarToast(mensagem) {
    BAIXAR CV
    Enquanto o PDF não existir em CURRICULO/, evita o 404 e mostra um aviso.
 ========================= */
-const cvDisponivel = fetch(CV_URL, { method: "HEAD", cache: "no-store" })
-  .then(response => response.ok)
-  .catch(() => false);
-let cvStatus = null; // null = verificando, true/false = resultado
-cvDisponivel.then(ok => { cvStatus = ok; });
+const CV_PT = { url: CV_URL, nome: CV_FILENAME };
+// Em EN usa o CV_URL_EN só se ele estiver configurado; senão, o PDF em português
+const cvDoIdioma = () => (idiomaAtual() === "en" && CV_URL_EN)
+  ? { url: CV_URL_EN, nome: CV_FILENAME_EN || CV_FILENAME }
+  : CV_PT;
 
-function dispararDownloadCv() {
+const cvChecagens = {}; // url -> Promise<boolean> (um HEAD por arquivo)
+const cvStatus = {};    // url -> true/false (ausente = verificando)
+function verificarCv(url) {
+  if (!cvChecagens[url]) {
+    cvChecagens[url] = fetch(url, { method: "HEAD", cache: "no-store" })
+      .then(response => response.ok)
+      .catch(() => false);
+    cvChecagens[url].then(ok => { cvStatus[url] = ok; });
+  }
+  return cvChecagens[url];
+}
+verificarCv(cvDoIdioma().url);
+
+function dispararDownloadCv({ url, nome }) {
   const link = document.createElement("a");
-  link.href = CV_URL;
-  link.download = CV_FILENAME;
+  link.href = url;
+  link.download = nome;
   link.rel = "noopener noreferrer";
   document.body.appendChild(link);
   link.click();
   link.remove();
 }
 
-function baixarCurriculo() {
-  cvDisponivel.then(ok => {
-    if (ok) dispararDownloadCv();
-    else mostrarToast("Currículo disponível em breve");
+async function baixarCurriculo() {
+  const cv = cvDoIdioma();
+  if (await verificarCv(cv.url)) return dispararDownloadCv(cv);
+  // CV em inglês configurado mas indisponível: cai no PDF em português
+  if (cv !== CV_PT && await verificarCv(CV_PT.url)) return dispararDownloadCv(CV_PT);
+  mostrarToast("toast.cvSoon");
+}
+
+function atualizarLinksCv() {
+  const cv = cvDoIdioma();
+  document.querySelectorAll("[data-cv-link]").forEach(link => {
+    link.href = cv.url;
+    link.download = cv.nome;
   });
 }
 
 document.querySelectorAll("[data-cv-link]").forEach(link => {
-  link.href = CV_URL;
-  link.download = CV_FILENAME;
   link.addEventListener("click", event => {
-    if (cvStatus === true) return;
+    if (cvStatus[cvDoIdioma().url] === true) return;
     event.preventDefault();
     baixarCurriculo();
   });
+});
+atualizarLinksCv();
+aoMudarIdioma(() => {
+  atualizarLinksCv();
+  verificarCv(cvDoIdioma().url);
 });
 
 /* =========================
@@ -613,10 +695,28 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
   const tooltip = document.getElementById("contrib-tooltip");
   if (!container || !chart) return;
 
-  const MESES_CURTOS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-  const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  // Datas e números via Intl no locale ativo. Abreviações sem ponto e com inicial maiúscula
+  // ("jan." -> "Jan", "seg." -> "Seg") para manter o visual atual em português.
+  const abreviar = texto => {
+    const limpo = texto.replace(/\.$/, "");
+    return limpo.charAt(0).toUpperCase() + limpo.slice(1);
+  };
+  function criarFormatadores() {
+    const locale = localeAtual();
+    return {
+      mes: new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" }),
+      diaSemana: new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }),
+      data: new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }),
+      numero: new Intl.NumberFormat(locale)
+    };
+  }
+  let fmt = criarFormatadores();
 
-  const textoContribuicoes = n => `${n} ${n === 1 ? "contribuição" : "contribuições"}`;
+  // Singular só para 1 (pt: 0 contribuições; en: 0 contributions)
+  const textoContribuicoes = n => t(n === 1 ? "contrib.one" : "contrib.other", { count: fmt.numero.format(n) });
+
+  let dadosAtuais = null;
+  let imgFallback = null;
 
   function usarFallback() {
     chart.remove();
@@ -624,9 +724,10 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
     if (totalEl) totalEl.textContent = "";
     const img = document.createElement("img");
     img.src = `https://ghchart.rshah.org/39D353/${usuario}`;
-    img.alt = `Gráfico de contribuições de ${usuario} no GitHub`;
+    img.alt = t("contrib.chartAria", { user: usuario });
     img.loading = "lazy";
     scroll.appendChild(img);
+    imgFallback = img;
   }
 
   function criar(tag, className, texto) {
@@ -643,10 +744,11 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
     const offset = primeiro.getUTCDay(); // semanas começam no domingo
     const semanas = Math.ceil((dias.length + offset) / 7);
     const fragment = document.createDocumentFragment();
+    dadosAtuais = dados;
 
-    // Rótulos dos dias: Seg, Qua, Sex nas linhas 2, 4 e 6 da semana
-    [["Seg", 1], ["Qua", 3], ["Sex", 5]].forEach(([nome, dia]) => {
-      const label = criar("span", "contrib-day", nome);
+    // Rótulos dos dias: Seg, Qua, Sex nas linhas 2, 4 e 6 da semana (01/01/2024 foi segunda)
+    [1, 3, 5].forEach(dia => {
+      const label = criar("span", "contrib-day", abreviar(fmt.diaSemana.format(Date.UTC(2024, 0, dia))));
       label.style.gridRow = String(dia + 2);
       fragment.appendChild(label);
     });
@@ -665,7 +767,7 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
 
       const cell = criar("span", "contrib-cell");
       cell.dataset.level = String(dia.level);
-      cell.dataset.tip = `${textoContribuicoes(dia.count)} em ${data.getUTCDate()} de ${MESES[data.getUTCMonth()]} de ${data.getUTCFullYear()}`;
+      cell.dataset.tip = t("contrib.tip", { count: textoContribuicoes(dia.count), date: fmt.data.format(data) });
       cell.style.gridColumn = String(coluna + 2);
       cell.style.gridRow = String(linha + 2);
       fragment.appendChild(cell);
@@ -674,15 +776,15 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
     colunasComMes.forEach((item, idx) => {
       const proximo = colunasComMes[idx + 1];
       if (item.inicio && proximo && proximo.coluna - item.coluna < 3) return;
-      const label = criar("span", "contrib-month", MESES_CURTOS[item.mes]);
+      const label = criar("span", "contrib-month", abreviar(fmt.mes.format(Date.UTC(2024, item.mes, 1))));
       label.style.gridColumn = String(item.coluna + 2);
       fragment.appendChild(label);
     });
 
     chart.style.setProperty("--contrib-weeks", String(semanas));
-    chart.setAttribute("aria-label", `${textoContribuicoes(total)} no último ano no GitHub de ${usuario}`);
+    chart.setAttribute("aria-label", t("contrib.totalAria", { count: textoContribuicoes(total), user: usuario }));
     chart.appendChild(fragment);
-    if (totalEl) totalEl.textContent = `${textoContribuicoes(total)} no último ano`;
+    if (totalEl) totalEl.textContent = t("contrib.total", { count: textoContribuicoes(total) });
 
     // Em telas estreitas, começa mostrando a data mais recente
     scroll.scrollLeft = scroll.scrollWidth;
@@ -705,6 +807,25 @@ document.querySelectorAll("[data-cv-link]").forEach(link => {
   });
   chart.addEventListener("pointerleave", () => { tooltip.hidden = true; });
   scroll.addEventListener("scroll", () => { tooltip.hidden = true; }, { passive: true });
+
+  // Troca de idioma: redesenha com os dados já baixados (sem nova requisição) e mantém a rolagem
+  aoMudarIdioma(() => {
+    fmt = criarFormatadores();
+    tooltip.hidden = true;
+    if (imgFallback) {
+      imgFallback.alt = t("contrib.chartAria", { user: usuario });
+    } else if (dadosAtuais) {
+      const rolagem = scroll.scrollLeft;
+      chart.replaceChildren();
+      desenhar(dadosAtuais);
+      scroll.scrollLeft = rolagem;
+    } else {
+      chart.setAttribute("aria-label", t("contrib.chartAria", { user: usuario }));
+    }
+  });
+
+  // Antes dos dados chegarem, o aria-label do gráfico já segue o idioma ativo
+  chart.setAttribute("aria-label", t("contrib.chartAria", { user: usuario }));
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);

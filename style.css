@@ -630,6 +630,63 @@ body::before {
   }
 }
 
+/* Idioma (PT | EN) + tema: agrupados no fim da navbar */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.82rem;
+}
+
+.lang-sep {
+  color: var(--muted);
+  user-select: none;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 4px 6px;
+  transition: color 0.2s ease;
+}
+
+.lang-btn[aria-pressed="true"] {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.lang-btn:focus-visible,
+#theme-toggle:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .lang-btn:hover {
+    color: var(--text);
+  }
+  .lang-btn[aria-pressed="true"]:hover {
+    color: var(--accent-green);
+  }
+}
+
+/* Idioma EN salvo: esconde a página até i18n.js traduzir (evita flash de PT; o <head> remove após 2,5s se o JS falhar) */
+html.i18n-pending body {
+  visibility: hidden;
+}
+
 /* =========================
    HERO
 ========================= */
@@ -2514,7 +2571,7 @@ kbd {
     padding: 12.5px 4px;
   }
 
-  .floating-nav nav.menu-open #theme-toggle {
+  .floating-nav nav.menu-open .nav-controls {
     position: absolute;
     top: 9px;
     right: 12px;
@@ -2806,6 +2863,7 @@ kbd {
 @media (pointer: coarse) {
   .nav-menu-toggle,
   #theme-toggle,
+  .lang-btn,
   .social-icon,
   .footer-socials a {
     min-width: 44px;

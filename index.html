@@ -2,7 +2,8 @@
 <html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <script>/* no-FOUC theme */try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=t||(m?'dark':'light');}catch(e){}</script>
+  <script>/* no-FOUC theme */(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=t||(m?'dark':'light');}catch(e){}})();</script>
+  <script>/* idioma antes do paint: ?lang= > localStorage > navegador > pt */(function(){var d=document.documentElement,l=null;try{l=(new URLSearchParams(location.search).get('lang')||'').toLowerCase();}catch(e){}if(l!=='en'&&l!=='pt'){try{l=localStorage.getItem('lang');}catch(e){l=null;}}if(l!=='en'&&l!=='pt'){l=/^pt/i.test(navigator.language||'')?'pt':'en';}d.lang=l==='en'?'en':'pt-BR';if(l==='en'){d.classList.add('i18n-pending');setTimeout(function(){d.classList.remove('i18n-pending');},2500);}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Carlos Eduardo Soares - Desenvolvedor Full Stack</title>
   <meta name="description" content="Portfólio de Carlos Eduardo Soares, desenvolvedor Full Stack focado em backend, APIs e aplicações web modernas." />
@@ -31,6 +32,8 @@
   
   
   <link rel="stylesheet" href="style.css"/>
+  <script src="i18n.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -41,13 +44,20 @@
 
 <header class="floating-nav">
   <nav>
-    <button id="nav-menu-toggle" class="nav-menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    <button id="nav-menu-toggle" class="nav-menu-toggle" aria-label="Abrir menu" aria-expanded="false" data-i18n-attr="aria-label:nav.openMenu">☰</button>
     <a href="#home" class="active">Home</a>
     <a href="#tech">Stack</a>
-    <a href="#projects">Projetos</a>
-    <a href="#about">Sobre</a>
-    <a href="#contact">Contato</a>
-    <button id="theme-toggle" aria-label="Alternar tema">🌙</button>
+    <a href="#projects" data-i18n="nav.projects">Projetos</a>
+    <a href="#about" data-i18n="nav.about">Sobre</a>
+    <a href="#contact" data-i18n="nav.contact">Contato</a>
+    <div class="nav-controls">
+      <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-attr="aria-label:lang.group">
+        <button type="button" class="lang-btn" data-lang="pt" aria-pressed="true" aria-label="Português" data-i18n-attr="aria-label:lang.pt">PT</button>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false" aria-label="Inglês" data-i18n-attr="aria-label:lang.en">EN</button>
+      </div>
+      <button id="theme-toggle" aria-label="Alternar tema" data-i18n-attr="aria-label:nav.theme">🌙</button>
+    </div>
   </nav>
 </header>
 
@@ -58,30 +68,25 @@
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>hero.tsx</span></div>
     <div class="hero-content">
       <div class="boot-status"><span></span>CARLOS.DEV :: v1.0.0 ONLINE</div>
-      <h1>Olá, eu sou Carlos Eduardo</h1>
-      <p class="hero-highlight"><span class="component-tag">&lt;FullStackDeveloper /&gt;</span> Construindo sistemas escaláveis do backend ao frontend.</p>
-      <p class="hero-text">
-        Sou Carlos Eduardo, estudante de Engenharia de Software,
-        desenvolvedor full stack com foco em backend.
-        Trabalho com APIs, aplicações web e interfaces modernas,
-        sempre priorizando código limpo e soluções eficientes.
-      </p>
+      <h1 data-i18n="hero.greeting">Olá, eu sou Carlos Eduardo</h1>
+      <p class="hero-highlight"><span class="component-tag">&lt;FullStackDeveloper /&gt;</span> <span data-i18n="hero.tagline">Construindo sistemas escaláveis do backend ao frontend.</span></p>
+      <p class="hero-text" data-i18n="hero.text">Sou Carlos Eduardo, estudante de Engenharia de Software, desenvolvedor full stack com foco em backend. Trabalho com APIs, aplicações web e interfaces modernas, sempre priorizando código limpo e soluções eficientes.</p>
       <div class="hero-actions">
-        <a href="#projects" class="btn ghost">▶ Ver Projetos</a>
-        <a id="cv-btn" data-cv-link href="CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf" class="btn ghost" download="Carlos_Eduardo_Soares_CV_Portifolio.pdf" target="_blank" rel="noopener noreferrer">⌥ Baixar CV</a>
+        <a href="#projects" class="btn ghost" data-i18n="hero.viewProjects">▶ Ver Projetos</a>
+        <a id="cv-btn" data-cv-link href="CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf" class="btn ghost" download="Carlos_Eduardo_Soares_CV_Portifolio.pdf" target="_blank" rel="noopener noreferrer" data-i18n="hero.downloadCv">⌥ Baixar CV</a>
       </div>
     </div>
   </div>
 
   <div class="terminal-window code-terminal">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>portfolio.tsx</span></div>
-    <div class="code-editor" aria-label="Código React de apresentação">
+    <div class="code-editor" aria-label="Código React de apresentação" data-i18n-attr="aria-label:hero.codeAria">
       <pre class="code-pre"><code class="code-lines"><span class="line"><span class="syntax-keyword">import</span> { <span class="syntax-component">Developer</span> } <span class="syntax-keyword">from</span> <span class="syntax-string">'./carlos'</span>;</span><span class="line"></span><span class="line"><span class="syntax-keyword">const</span> <span class="syntax-component">Portfolio</span> = () =&gt; {</span><span class="line">  <span class="syntax-keyword">return</span> (</span><span class="line">    &lt;<span class="syntax-component">Developer</span></span><span class="line">      name=<span class="syntax-string">"Carlos Eduardo"</span></span><span class="line">      role=<span class="syntax-string">"Full Stack Developer"</span></span><span class="line">      stack={[<span class="syntax-string">'.NET'</span>, <span class="syntax-string">'React'</span>, <span class="syntax-string">'Flutter'</span>]}</span><span class="line">    /&gt;</span><span class="line">  );</span><span class="line">};</span></code></pre>
     </div>
   </div>
 </section>
 
-<div class="tech-marquee" aria-label="Tecnologias principais">
+<div class="tech-marquee" aria-label="Tecnologias principais" data-i18n-attr="aria-label:marquee.aria">
   <div class="tech-marquee-track">
     <span><i class="devicon-react-original"></i>React</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-flutter-plain"></i>Flutter</span><span><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span><i class="devicon-docker-plain"></i>Docker</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-swift-plain"></i>Swift</span>
     <span aria-hidden="true"><i class="devicon-react-original"></i>React</span><span aria-hidden="true"><i class="devicon-dotnetcore-plain"></i>.NET</span><span aria-hidden="true"><i class="devicon-flutter-plain"></i>Flutter</span><span aria-hidden="true"><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span aria-hidden="true"><i class="devicon-docker-plain"></i>Docker</span><span aria-hidden="true"><i class="devicon-typescript-plain"></i>TypeScript</span><span aria-hidden="true"><i class="devicon-nodejs-plain"></i>Node.js</span><span aria-hidden="true"><i class="devicon-swift-plain"></i>Swift</span>
@@ -92,8 +97,8 @@
   <div class="terminal-window">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>stack.json</span></div>
     <header>
-      <h2>Stack Tecnológica</h2>
-      <p>Ferramentas e tecnologias que uso no dia a dia</p>
+      <h2 data-i18n="tech.title">Stack Tecnológica</h2>
+      <p data-i18n="tech.subtitle">Ferramentas e tecnologias que uso no dia a dia</p>
     </header>
 
     <div class="tech-grid">
@@ -123,7 +128,7 @@
 
     <div class="tech-category">
       <div class="tech-icon"></div>
-      <h3>Banco de Dados</h3>
+      <h3 data-i18n="tech.databases">Banco de Dados</h3>
       <div class="tech-pills">
         <span><i class="devicon-postgresql-plain"></i>PostgreSQL</span><span><i class="devicon-microsoftsqlserver-plain"></i>SQL Server</span><span><i class="devicon-sqlite-plain"></i>SQLite</span>
       </div>
@@ -131,7 +136,7 @@
 
     <div class="tech-category">
       <div class="tech-icon"></div>
-      <h3>Ferramentas</h3>
+      <h3 data-i18n="tech.tools">Ferramentas</h3>
       <div class="tech-pills">
         <span><i class="devicon-git-plain"></i>Git &amp; GitHub</span><span><i class="devicon-azure-plain"></i>Azure DevOps</span><span><i class="devicon-postman-plain"></i>Postman</span><span><i class="devicon-docker-plain"></i>Docker</span>
       </div>
@@ -139,7 +144,7 @@
 
     <div class="tech-category">
       <div class="tech-icon"></div>
-      <h3>Inteligência Artificial</h3>
+      <h3 data-i18n="tech.ai">Inteligência Artificial</h3>
       <div class="tech-pills">
         <span><i class="devicon-openai-plain"></i>OpenAI API</span><span><i class="devicon-google-plain"></i>Gemini API</span>
       </div>
@@ -161,8 +166,8 @@
   <div class="terminal-window">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>projects.ts</span></div>
     <header>
-      <h2>$ ls -la ~/projetos</h2>
-      <p>Engenharia de software aplicada a problemas reais</p>
+      <h2 data-i18n="projects.title">$ ls -la ~/projetos</h2>
+      <p data-i18n="projects.subtitle">Engenharia de software aplicada a problemas reais</p>
     </header>
 
     <div class="projects-grid">
@@ -170,52 +175,52 @@
     <article class="project-card" data-project="korp">
       <div class="project-body">
         <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>Korp ERP</h3><span class="repo-visibility">Public</span></div>
-        <span class="project-status">Teste técnico</span>
-        <p>Sistema corporativo de faturamento e estoque com arquitetura de microsserviços, concorrência e DANFE em PDF.</p>
+        <span class="project-status" data-i18n="projects.status.test">Teste técnico</span>
+        <p data-i18n="projects.korp.card">Sistema corporativo de faturamento e estoque com arquitetura de microsserviços, concorrência e DANFE em PDF.</p>
         <div class="project-tech">
           <span>.NET 9</span><span>Angular 19</span><span>Docker</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
       </div>
     </article>
 
     <article class="project-card" data-project="cripto">
       <div class="project-body">
         <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>MinhaCripto</h3><span class="repo-visibility">Public</span></div>
-        <span class="project-status">Projeto pessoal</span>
-        <p>Aplicativo mobile focado no uso prático de criptomoedas.</p>
+        <span class="project-status" data-i18n="projects.status.personal">Projeto pessoal</span>
+        <p data-i18n="projects.cripto.card">Aplicativo mobile focado no uso prático de criptomoedas.</p>
         <div class="project-tech">
           <span>Swift</span><span>Node.js</span><span>REST API</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot swift"></i>Swift</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Minha-Cripto" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Minha-Cripto" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
       </div>
     </article>
 
     <article class="project-card" data-project="resume">
       <div class="project-body">
         <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>ResumeAI</h3><span class="repo-visibility">Public</span></div>
-        <span class="project-status">Em produção</span>
-        <p>Aplicação full stack para geração automática de resumos.</p>
+        <span class="project-status" data-i18n="projects.status.production">Em produção</span>
+        <p data-i18n="projects.resume.card">Aplicação full stack para geração automática de resumos.</p>
         <div class="project-tech">
-          <span>React</span><span>Node.js</span><span>IA</span>
+          <span>React</span><span>Node.js</span><span data-i18n="projects.aiTag">IA</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot typescript"></i>TypeScript</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/Resumo-IA" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Resumo-IA" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
       </div>
     </article>
 
     <article class="project-card" data-project="target">
       <div class="project-body">
         <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>TargetDesafio</h3><span class="repo-visibility">Public</span></div>
-        <span class="project-status">Teste técnico</span>
-        <p>Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.</p>
+        <span class="project-status" data-i18n="projects.status.test">Teste técnico</span>
+        <p data-i18n="projects.target.card">Desafio técnico da Target Sistemas implementando cálculos de comissões, controle de estoque e juros em C#.</p>
         <div class="project-tech">
           <span>C#</span><span>.NET</span><span>Console App</span>
         </div>
         <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
-        <a class="repo-action" href="https://github.com/Soarezzsemj/TargetDesafio" target="_blank" rel="noopener noreferrer">Ver repositório →</a>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/TargetDesafio" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
       </div>
     </article>
 
@@ -226,83 +231,83 @@
 <section id="about" class="about reveal">
   <div class="terminal-window">
     <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>about.json</span></div>
-    <h2 class="command-title">$ cat sobre.txt</h2>
+    <h2 class="command-title" data-i18n="about.title">$ cat sobre.txt</h2>
     <div class="about-terminal-session">
       <p class="terminal-command">➜ whoami</p>
-      <p class="terminal-output">Desenvolvedor focado em backend, arquitetura de software e construção de soluções escaláveis.</p>
-      <p class="terminal-command">➜ cat missao.txt</p>
-      <p class="terminal-output">Busco evoluir constantemente e trabalhar em projetos com impacto real.</p>
+      <p class="terminal-output" data-i18n="about.whoami">Desenvolvedor focado em backend, arquitetura de software e construção de soluções escaláveis.</p>
+      <p class="terminal-command" data-i18n="about.missionCmd">➜ cat missao.txt</p>
+      <p class="terminal-output" data-i18n="about.mission">Busco evoluir constantemente e trabalhar em projetos com impacto real.</p>
     </div>
 
-    <div class="neofetch-stats" aria-label="Estatísticas profissionais">
-      <div><strong>1+</strong><span>ANO DE EXPERIÊNCIA</span></div>
-      <div><strong>4+</strong><span>PROJETOS</span></div>
-      <div><strong>15+</strong><span>STACK</span><small>TECNOLOGIAS</small></div>
+    <div class="neofetch-stats" aria-label="Estatísticas profissionais" data-i18n-attr="aria-label:about.statsAria">
+      <div><strong>1+</strong><span data-i18n="about.statYears">ANO DE EXPERIÊNCIA</span></div>
+      <div><strong>4+</strong><span data-i18n="about.statProjects">PROJETOS</span></div>
+      <div><strong>15+</strong><span>STACK</span><small data-i18n="about.statTech">TECNOLOGIAS</small></div>
     </div>
 
     <div class="about-details">
     <div class="about-block">
-      <h3 class="command-title"># git log --experiencia</h3>
+      <h3 class="command-title" data-i18n="about.experienceCmd"># git log --experiencia</h3>
       <div class="commit-log">
         <article class="commit-entry">
-          <div class="commit-meta"><code>a3f9c2c</code><span>HEAD -&gt; main</span><time>2026 - Presente</time></div>
+          <div class="commit-meta"><code>a3f9c2c</code><span>HEAD -&gt; main</span><time data-i18n="about.infraero.period">2026 - Presente</time></div>
           <h4>Infraero</h4>
-          <p class="commit-role">Desenvolvedor</p>
-          <p>App VIA (Flutter) + sistema DEMANDAS (C#) para gestão de aeroportos.</p>
+          <p class="commit-role" data-i18n="about.infraero.role">Desenvolvedor</p>
+          <p data-i18n="about.infraero.desc">App VIA (Flutter) + sistema DEMANDAS (C#) para gestão de aeroportos.</p>
           <div class="commit-badges"><span>Flutter</span><span>Dart</span><span>C#</span><span>.NET</span><span>SQL Server</span><span>REST APIs</span><span>Azure DevOps</span><span>Git &amp; GitHub</span></div>
         </article>
         <article class="commit-entry">
-          <div class="commit-meta"><code>c8d04f1</code><span>HEAD -&gt; main</span><time>05/2025 - Presente</time></div>
-          <h4>Projetos Independentes</h4>
-          <p class="commit-role">Desenvolvedor Full Stack</p>
+          <div class="commit-meta"><code>c8d04f1</code><span>HEAD -&gt; main</span><time data-i18n="about.indie.period">05/2025 - Presente</time></div>
+          <h4 data-i18n="about.indie.company">Projetos Independentes</h4>
+          <p class="commit-role" data-i18n="about.indie.role">Desenvolvedor Full Stack</p>
           <div class="commit-badges"><span>Full Stack</span></div>
         </article>
         <article class="commit-entry">
           <div class="commit-meta"><code>7b21e4a</code><span>HEAD -&gt; main</span><time>04/2025 - 05/2025</time></div>
           <h4>HackaTruck - Instituto Eldorado</h4>
-          <p class="commit-role">Desenvolvedor iOS</p>
-          <p>Desenvolvimento de apps iOS em Swift com serviços de nuvem e serviços cognitivos.</p>
-          <div class="commit-badges"><span>Swift</span><span>iOS</span><span>SwiftUI</span><span>UIKit</span><span>Cloud Services</span><span>Serviços Cognitivos</span><span>Git &amp; GitHub</span></div>
+          <p class="commit-role" data-i18n="about.hackatruck.role">Desenvolvedor iOS</p>
+          <p data-i18n="about.hackatruck.desc">Desenvolvimento de apps iOS em Swift com serviços de nuvem e serviços cognitivos.</p>
+          <div class="commit-badges"><span>Swift</span><span>iOS</span><span>SwiftUI</span><span>UIKit</span><span>Cloud Services</span><span data-i18n="about.cognitive">Serviços Cognitivos</span><span>Git &amp; GitHub</span></div>
         </article>
       </div>
     </div>
     <div class="about-block">
-      <h3>Formação</h3>
+      <h3 data-i18n="about.education">Formação</h3>
       <div class="info-card">
-        <strong>Engenharia de Software</strong>
-        <span>Universidade Católica de Brasília (UCB) · previsão 2028</span>
+        <strong data-i18n="about.degree">Engenharia de Software</strong>
+        <span data-i18n="about.university">Universidade Católica de Brasília (UCB) · previsão 2028</span>
       </div>
     </div>
     <div class="about-block">
-      <h3>Certificações</h3>
+      <h3 data-i18n="about.certifications">Certificações</h3>
       <div class="certifications">
         <article class="cert-column cert-dio">
           <header class="cert-column-header">
             <img src="public/images/certs/dio_logo.png" alt="DIO">
             <h4>DIO</h4>
           </header>
-          <div class="cert-entry"><h5>Formação GitHub Certification</h5><span>10 horas · 07/2026</span></div>
+          <div class="cert-entry"><h5 data-i18n="cert.github">Formação GitHub Certification</h5><span data-i18n="cert.github.meta">10 horas · 07/2026</span></div>
         </article>
         <article class="cert-column cert-tic">
           <header class="cert-column-header">
             <img src="public/images/certs/tic_em_trilhas_logo.png" alt="TIC em Trilhas">
             <h4>TIC em Trilhas</h4>
           </header>
-          <div class="cert-entry"><h5>Métodos Ágeis</h5><span>30 horas · 09/2026</span></div>
-          <div class="cert-entry"><h5>Soluções Tecnológicas com CBL (Challenge Based Learning)</h5><span>30 horas · 09/2026</span></div>
+          <div class="cert-entry"><h5 data-i18n="cert.agile">Métodos Ágeis</h5><span data-i18n="cert.agile.meta">30 horas · 09/2026</span></div>
+          <div class="cert-entry"><h5 data-i18n="cert.cbl">Soluções Tecnológicas com CBL (Challenge Based Learning)</h5><span data-i18n="cert.cbl.meta">30 horas · 09/2026</span></div>
         </article>
         <article class="cert-column cert-hackatruck">
           <header class="cert-column-header">
             <img src="public/images/certs/hackatruck_wordmark.png" alt="HackaTruck">
             <h4>HackaTruck (Instituto Eldorado)</h4>
           </header>
-          <div class="cert-entry"><h5>Práticas de Cloud Services usando Swift com ênfase em Serviços Cognitivos</h5><span>100 horas · 05/2025</span></div>
+          <div class="cert-entry"><h5 data-i18n="cert.cloud">Práticas de Cloud Services usando Swift com ênfase em Serviços Cognitivos</h5><span data-i18n="cert.cloud.meta">100 horas · 05/2025</span></div>
         </article>
       </div>
     </div>
     <div class="about-block github-contributions" id="github-contributions">
       <div class="contrib-header">
-        <h3>Contribuições no GitHub</h3>
+        <h3 data-i18n="contrib.title">Contribuições no GitHub</h3>
         <span class="contrib-total" id="contrib-total"></span>
       </div>
       <div class="contrib-scroll" id="contrib-scroll">
@@ -311,9 +316,9 @@
       </div>
       <div class="contrib-tooltip" id="contrib-tooltip" role="tooltip" hidden></div>
       <div class="contrib-footer">
-        <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer">Ver perfil no GitHub →</a>
+        <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer" data-i18n="contrib.viewProfile">Ver perfil no GitHub →</a>
         <div class="contrib-legend" id="contrib-legend" aria-hidden="true">
-          <span>Menos</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span>Mais</span>
+          <span data-i18n="contrib.less">Menos</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span data-i18n="contrib.more">Mais</span>
         </div>
       </div>
     </div>
@@ -323,23 +328,23 @@
 
 <section id="contact" class="contact reveal">
   <div class="terminal-window contact-json-window">
-    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>contato.json</span></div>
-    <h2>Conecte-se Comigo</h2>
-    <pre class="contact-json" aria-label="Informações de contato em formato JSON"><code>{
-  <span class="json-key">"status"</span>: <span class="json-string">"disponível"</span>,
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span data-i18n="contact.file">contato.json</span></div>
+    <h2 data-i18n="contact.title">Conecte-se Comigo</h2>
+    <pre class="contact-json" aria-label="Informações de contato em formato JSON" data-i18n-attr="aria-label:contact.jsonAria"><code>{
+  <span class="json-key">"status"</span>: <span class="json-string" data-i18n="contact.status">"disponível"</span>,
   <span class="json-key">"email"</span>: <span class="json-string">"5carloseduardo2007@gmail.com"</span>,
   <span class="json-key">"socials"</span>: {
     <span class="json-key">"linkedin"</span>: <span class="json-string">"carlos-eduardo-soares"</span>,
     <span class="json-key">"github"</span>: <span class="json-string">"Soarezzsemj"</span>,
     <span class="json-key">"instagram"</span>: <span class="json-string">"soarezzsemj"</span>
   },
-  <span class="json-key">"localizacao"</span>: <span class="json-string">"Brasília, DF"</span>
+  <span class="json-key" data-i18n="contact.locationKey">"localizacao"</span>: <span class="json-string">"Brasília, DF"</span>
 }</code></pre>
   </div>
 
   <div class="terminal-window contact-form-window">
-    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span>enviar_mensagem.ts</span></div>
-    <h3 class="contact-form-title">Enviar mensagem</h3>
+    <div class="terminal-bar"><span class="terminal-dots"><i></i><i></i><i></i></span><span data-i18n="contact.formFile">enviar_mensagem.ts</span></div>
+    <h3 class="contact-form-title" data-i18n="contact.formTitle">Enviar mensagem</h3>
     <div class="social-links">
     <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -362,19 +367,19 @@
     <input type="hidden" name="access_key" value="b0336958-aa53-4fa6-89a7-c59b53eaaeb9">
     <input type="hidden" name="redirect" value="https://web3forms.com/success">
     
-    <label for="name">Nome</label>
-    <input type="text" id="name" name="name" placeholder="Seu nome" required />
+    <label for="name" data-i18n="form.name">Nome</label>
+    <input type="text" id="name" name="name" placeholder="Seu nome" data-i18n-attr="placeholder:form.namePh" required />
     
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" placeholder="Seu email" required />
+    <label for="email" data-i18n="form.email">Email</label>
+    <input type="email" id="email" name="email" placeholder="Seu email" data-i18n-attr="placeholder:form.emailPh" required />
     
-    <label for="subject">Assunto</label>
-    <input type="text" id="subject" name="subject" placeholder="Assunto da mensagem" required />
+    <label for="subject" data-i18n="form.subject">Assunto</label>
+    <input type="text" id="subject" name="subject" placeholder="Assunto da mensagem" data-i18n-attr="placeholder:form.subjectPh" required />
     
-    <label for="message">Mensagem</label>
-    <textarea id="message" name="message" placeholder="Sua mensagem" required></textarea>
+    <label for="message" data-i18n="form.message">Mensagem</label>
+    <textarea id="message" name="message" placeholder="Sua mensagem" data-i18n-attr="placeholder:form.messagePh" required></textarea>
     
-    <button type="submit">Enviar Mensagem</button>
+    <button type="submit" data-i18n="form.submit">Enviar Mensagem</button>
     </form>
 
     <div id="form-status" class="form-status hidden"></div>
@@ -386,25 +391,25 @@
 <footer>
   <div class="footer-content">
     <div><strong>Carlos Eduardo</strong><p>© 2026 • Carlos Eduardo</p></div>
-    <nav aria-label="Navegação do rodapé">
-      <a href="#home">Home</a><a href="#tech">Stack</a><a href="#projects">Projetos</a><a href="#about">Sobre</a><a href="#contact">Contato</a>
+    <nav aria-label="Navegação do rodapé" data-i18n-attr="aria-label:nav.footer">
+      <a href="#home">Home</a><a href="#tech">Stack</a><a href="#projects" data-i18n="nav.projects">Projetos</a><a href="#about" data-i18n="nav.about">Sobre</a><a href="#contact" data-i18n="nav.contact">Contato</a>
     </nav>
     <div class="footer-socials">
       <a href="https://www.linkedin.com/in/carlos-eduardo-soares-081419343/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
       <a href="https://github.com/Soarezzsemj" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg></a>
       <a href="https://instagram.com/soarezzsemj" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg></a>
     </div>
-    <a class="back-to-top" href="#home">Voltar ao topo ↑</a>
+    <a class="back-to-top" href="#home" data-i18n="footer.backToTop">Voltar ao topo ↑</a>
   </div>
 </footer>
 
-<button type="button" class="command-hint" id="command-hint-btn" aria-label="Abrir menu de comandos" title="Abrir menu de comandos">
-  <span aria-hidden="true" class="command-hint-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span><span class="command-hint-label">Pressione <kbd id="command-hint-kbd">⌘K</kbd></span>
+<button type="button" class="command-hint" id="command-hint-btn" aria-label="Abrir menu de comandos" title="Abrir menu de comandos" data-i18n-attr="aria-label:palette.hint;title:palette.hint">
+  <span aria-hidden="true" class="command-hint-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span><span class="command-hint-label"><span data-i18n="palette.press">Pressione</span> <kbd id="command-hint-kbd">⌘K</kbd></span>
 </button>
 <div id="command-palette" class="command-palette hidden" role="dialog" aria-modal="true" aria-label="Command palette">
   <div class="command-palette-content">
     <div class="command-search">
-      <span>/</span><input id="command-search-input" type="search" placeholder="Buscar uma ação..." autocomplete="off">
+      <span>/</span><input id="command-search-input" type="search" placeholder="Buscar uma ação..." data-i18n-attr="placeholder:palette.search" autocomplete="off">
     </div>
     <div id="command-actions" class="command-actions"></div>
   </div>
@@ -422,23 +427,18 @@
     <div id="modal-gallery" class="modal-gallery"></div>
     
     <div class="modal-links">
-      <a id="modal-live-link" target="_blank" rel="noopener noreferrer" class="modal-live-btn" style="display: none;">
-        🚀 Ver Versão Online
-      </a>
-      <a id="modal-link" target="_blank" rel="noopener noreferrer" class="modal-repo-link">
-        Ver repositório →
-      </a>
+      <a id="modal-live-link" target="_blank" rel="noopener noreferrer" class="modal-live-btn" style="display: none;"><span data-i18n="modal.live">🚀 Ver Versão Online</span></a>
+      <a id="modal-link" target="_blank" rel="noopener noreferrer" class="modal-repo-link"><span data-i18n="projects.viewRepo">Ver repositório →</span></a>
     </div>
   </div>
 </div>
 
-<div id="image-lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Screenshot ampliada">
-  <button id="close-lightbox" class="close-lightbox" aria-label="Fechar imagem ampliada">✕</button>
-  <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Imagem anterior">‹</button>
+<div id="image-lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Screenshot ampliada" data-i18n-attr="aria-label:lightbox.aria">
+  <button id="close-lightbox" class="close-lightbox" aria-label="Fechar imagem ampliada" data-i18n-attr="aria-label:lightbox.close">✕</button>
+  <button id="lightbox-prev" class="lightbox-nav lightbox-prev" aria-label="Imagem anterior" data-i18n-attr="aria-label:lightbox.prev">‹</button>
   <img id="lightbox-image" src="" alt="">
-  <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Próxima imagem">›</button>
+  <button id="lightbox-next" class="lightbox-nav lightbox-next" aria-label="Próxima imagem" data-i18n-attr="aria-label:lightbox.next">›</button>
 </div>
 
-<script src="script.js"></script>
 </body>
 </html>
