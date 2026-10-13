@@ -167,7 +167,9 @@
       "palette.emailCopied": "Email copiado: {email}",
       "palette.emailFallback": "Email: {email}",
 
-      "toast.cvSoon": "Currículo disponível em breve"
+      "toast.cvSoon": "Currículo disponível em breve",
+      "toast.cvFallback": "Currículo em inglês em breve — baixando a versão em português.",
+      "cv.title": "Baixar Currículo (PDF)"
     },
 
     en: {
@@ -331,7 +333,9 @@
       "palette.emailCopied": "Email copied: {email}",
       "palette.emailFallback": "Email: {email}",
 
-      "toast.cvSoon": "CV coming soon"
+      "toast.cvSoon": "CV coming soon",
+      "toast.cvFallback": "English resume coming soon — downloading the Portuguese version.",
+      "cv.title": "Download CV (PDF)"
     }
   };
 

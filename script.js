@@ -1,11 +1,15 @@
 /* =========================
-   CURRÍCULO (caminho único)
+   CURRÍCULO (um PDF por idioma; caminhos relativos por causa da subpasta do GitHub Pages)
+   Se o PDF em inglês ainda não existir, o modo EN cai para o PDF em português.
 ========================= */
-const CV_URL = "CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf";
-const CV_FILENAME = "Carlos_Eduardo_Soares_CV_Portifolio.pdf";
-// Currículo em inglês (opcional): enquanto for null, o modo EN usa o PDF em português
-const CV_URL_EN = null;
-const CV_FILENAME_EN = null;
+const CV_URLS = {
+  pt: "CURRICULO/Carlos_Eduardo_Soares_CV_Portifolio.pdf",
+  en: "CURRICULO/Carlos_Eduardo_Soares_CV_Portfolio_EN.pdf"
+};
+const CV_FILENAMES = {
+  pt: "Carlos_Eduardo_Soares_CV_Portifolio.pdf",
+  en: "Carlos_Eduardo_Soares_CV_Portfolio_EN.pdf"
+};
 
 /* =========================
    I18N (helpers; dicionários em i18n.js)
@@ -501,7 +505,7 @@ const commandItems = [
   { label: "palette.contact", action: () => navegarPara("#contact") },
   { label: "palette.github", action: () => window.open("https://github.com/Soarezzsemj", "_blank", "noopener noreferrer") },
   { label: "palette.linkedin", action: () => window.open("https://www.linkedin.com/in/carlos-eduardo-soares-081419343/", "_blank", "noopener noreferrer") },
-  { label: "palette.cv", action: () => baixarCurriculo() },
+  { label: "palette.cv", action: () => downloadCv() },
   { label: "palette.copyEmail", action: () => {
     const email = "5carloseduardo2007@gmail.com";
     navigator.clipboard.writeText(email)
@@ -620,65 +624,108 @@ function mostrarToast(chave) {
 }
 
 /* =========================
-   BAIXAR CV
-   Enquanto o PDF não existir em CURRICULO/, evita o 404 e mostra um aviso.
+   BAIXAR CV (único ponto de lógica: links [data-cv-link] e paleta de comandos)
+   Fluxo: HEAD no PDF do idioma ativo -> baixa; EN sem PDF -> baixa o PT + aviso;
+   nenhum PDF -> aviso de indisponível.
 ========================= */
-const CV_PT = { url: CV_URL, nome: CV_FILENAME };
-// Em EN usa o CV_URL_EN só se ele estiver configurado; senão, o PDF em português
-const cvDoIdioma = () => (idiomaAtual() === "en" && CV_URL_EN)
-  ? { url: CV_URL_EN, nome: CV_FILENAME_EN || CV_FILENAME }
-  : CV_PT;
+// Idioma vem do mesmo estado do i18n (window.I18N); nada de estado paralelo
+const getCvUrl = (lang = idiomaAtual()) => CV_URLS[lang] ?? CV_URLS.pt;
+const getCvFilename = (lang = idiomaAtual()) => CV_FILENAMES[lang] ?? CV_FILENAMES.pt;
 
-const cvChecagens = {}; // url -> Promise<boolean> (um HEAD por arquivo)
-const cvStatus = {};    // url -> true/false (ausente = verificando)
+const cvStatus = {};    // url -> true/false (ausente = ainda não verificado)
+const cvChecagens = {}; // url -> Promise<boolean> em andamento
 function verificarCv(url) {
   if (!cvChecagens[url]) {
+    // no-store: o PDF em inglês passa a valer assim que for publicado
     cvChecagens[url] = fetch(url, { method: "HEAD", cache: "no-store" })
       .then(response => response.ok)
-      .catch(() => false);
-    cvChecagens[url].then(ok => { cvStatus[url] = ok; });
+      .catch(() => false)
+      .then(ok => {
+        cvStatus[url] = ok;
+        // resultado negativo não fica memorizado: o próximo clique checa de novo
+        if (!ok) delete cvChecagens[url];
+        return ok;
+      });
   }
   return cvChecagens[url];
 }
-verificarCv(cvDoIdioma().url);
 
-function dispararDownloadCv({ url, nome }) {
+// Pré-checa o PDF do idioma ativo (e o PT, que é o fallback do EN) para o clique decidir na hora
+function prechecarCv() {
+  verificarCv(getCvUrl());
+  if (idiomaAtual() !== "pt") verificarCv(CV_URLS.pt);
+}
+
+// Safari iOS ignora/bloqueia o download programático: abre o PDF em nova aba
+const downloadProgramaticoFalha = /iP(hone|ad|od)/.test(navigator.userAgent)
+  || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+function abrirCvEmNovaAba(url) {
   const link = document.createElement("a");
   link.href = url;
-  link.download = nome;
+  link.target = "_blank";
   link.rel = "noopener noreferrer";
   document.body.appendChild(link);
   link.click();
   link.remove();
 }
 
-async function baixarCurriculo() {
-  const cv = cvDoIdioma();
-  if (await verificarCv(cv.url)) return dispararDownloadCv(cv);
-  // CV em inglês configurado mas indisponível: cai no PDF em português
-  if (cv !== CV_PT && await verificarCv(CV_PT.url)) return dispararDownloadCv(CV_PT);
+function dispararDownloadCv(lang) {
+  const url = getCvUrl(lang);
+  if (downloadProgramaticoFalha) return abrirCvEmNovaAba(url);
+  try {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = getCvFilename(lang);
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } catch (e) {
+    abrirCvEmNovaAba(url);
+  }
+}
+
+// Usa o status já pré-checado quando existir (sem await = continua dentro do gesto do clique,
+// o que evita bloqueio de download/popup); se o resultado for negativo, checa de novo em segundo plano.
+async function downloadCv() {
+  const lang = idiomaAtual();
+  const url = getCvUrl(lang);
+  const existe = cvStatus[url] ?? await verificarCv(url);
+  if (existe) return dispararDownloadCv(lang);
+
+  verificarCv(url); // atualiza para o próximo clique (ex.: PDF publicado com a página aberta)
+  if (lang !== "pt") {
+    const existePt = cvStatus[CV_URLS.pt] ?? await verificarCv(CV_URLS.pt);
+    if (existePt) {
+      dispararDownloadCv("pt");
+      return mostrarToast("toast.cvFallback");
+    }
+  }
   mostrarToast("toast.cvSoon");
 }
 
+// href/download dos links seguem o idioma ativo (no HTML estático ficam no PT, para funcionar sem JS)
 function atualizarLinksCv() {
-  const cv = cvDoIdioma();
   document.querySelectorAll("[data-cv-link]").forEach(link => {
-    link.href = cv.url;
-    link.download = cv.nome;
+    link.href = getCvUrl();
+    link.download = getCvFilename();
   });
 }
 
 document.querySelectorAll("[data-cv-link]").forEach(link => {
   link.addEventListener("click", event => {
-    if (cvStatus[cvDoIdioma().url] === true) return;
+    // PDF do idioma ativo confirmado: deixa o link nativo baixar (mais robusto em todos os navegadores)
+    if (cvStatus[getCvUrl()] === true) return;
     event.preventDefault();
-    baixarCurriculo();
+    downloadCv();
   });
 });
 atualizarLinksCv();
+prechecarCv();
 aoMudarIdioma(() => {
   atualizarLinksCv();
-  verificarCv(cvDoIdioma().url);
+  prechecarCv();
 });
 
 /* =========================
