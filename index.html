@@ -106,7 +106,7 @@
       <div class="tech-icon"></div>
       <h3>Back-end</h3>
       <div class="tech-pills">
-        <span><i class="devicon-java-plain"></i>Java</span><span><i class="devicon-csharp-plain"></i>C#</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-fastapi-plain"></i>REST APIs</span>
+        <span><i class="devicon-java-plain"></i>Java</span><span><i class="devicon-csharp-plain"></i>C#</span><span><i class="devicon-dotnetcore-plain"></i>.NET</span><span><i class="devicon-typescript-plain"></i>TypeScript</span><span><i class="devicon-nodejs-plain"></i>Node.js</span><span><i class="devicon-express-original"></i>Express</span><span><i class="devicon-prisma-original"></i>Prisma</span><span><i class="devicon-python-plain"></i>Python</span><span><i class="devicon-fastapi-plain"></i>REST APIs</span>
         </div>
       </div>
 
@@ -172,6 +172,19 @@
 
     <div class="projects-grid">
 
+    <article class="project-card" data-project="arremata">
+      <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>Arremata</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status" data-i18n="projects.status.test">Teste técnico</span>
+        <p data-i18n="projects.arremata.card">Casa de leilões online de obras de arte com lances em tempo real, saldo comprometido, anti-sniping e histórico de lances auditável por hash encadeado.</p>
+        <div class="project-tech">
+          <span>React</span><span>Node.js</span><span>PostgreSQL</span><span>TypeScript</span><span>Docker</span>
+        </div>
+        <div class="repo-meta"><span><i class="language-dot typescript"></i>TypeScript</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/arremata" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
+      </div>
+    </article>
+
     <article class="project-card" data-project="korp">
       <div class="project-body">
         <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>Korp ERP</h3><span class="repo-visibility">Public</span></div>
@@ -182,6 +195,19 @@
         </div>
         <div class="repo-meta"><span><i class="language-dot csharp"></i>C#</span></div>
         <a class="repo-action" href="https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
+      </div>
+    </article>
+
+    <article class="project-card" data-project="carscanner">
+      <div class="project-body">
+        <div class="repo-heading"><svg class="repo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20M8 7h8M8 11h8"/></svg><h3>Car Scanner</h3><span class="repo-visibility">Public</span></div>
+        <span class="project-status" data-i18n="projects.status.personal">Projeto pessoal</span>
+        <p data-i18n="projects.carscanner.card">Monitor OBD2 para Windows que lê o carro por adaptador ELM327 Bluetooth LE, com painel em tempo real, logs automáticos de cada viagem e simulador para testar sem o veículo.</p>
+        <div class="project-tech">
+          <span>Python</span><span>PySide6</span><span>Bluetooth LE</span><span>ELM327</span>
+        </div>
+        <div class="repo-meta"><span><i class="language-dot python"></i>Python</span></div>
+        <a class="repo-action" href="https://github.com/Soarezzsemj/Car-Scanner" target="_blank" rel="noopener noreferrer" data-i18n="projects.viewRepo">Ver repositório →</a>
       </div>
     </article>
 
@@ -241,7 +267,7 @@
 
     <div class="neofetch-stats" aria-label="Estatísticas profissionais" data-i18n-attr="aria-label:about.statsAria">
       <div><strong>1+</strong><span data-i18n="about.statYears">ANO DE EXPERIÊNCIA</span></div>
-      <div><strong>4+</strong><span data-i18n="about.statProjects">PROJETOS</span></div>
+      <div><strong>5+</strong><span data-i18n="about.statProjects">PROJETOS</span></div>
       <div><strong>15+</strong><span>STACK</span><small data-i18n="about.statTech">TECNOLOGIAS</small></div>
     </div>
 
@@ -430,6 +456,7 @@
       <a id="modal-live-link" target="_blank" rel="noopener noreferrer" class="modal-live-btn" style="display: none;"><span data-i18n="modal.live">🚀 Ver Versão Online</span></a>
       <a id="modal-link" target="_blank" rel="noopener noreferrer" class="modal-repo-link"><span data-i18n="projects.viewRepo">Ver repositório →</span></a>
     </div>
+    <p id="modal-note" class="modal-note" hidden></p>
   </div>
 </div>
 

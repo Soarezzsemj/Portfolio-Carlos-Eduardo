@@ -1178,8 +1178,8 @@ html.i18n-pending body {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 36px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
   align-items: stretch;
   padding-bottom: 36px;
 }
@@ -1367,6 +1367,14 @@ html.i18n-pending body {
 .language-dot.csharp { background: var(--accent-green); }
 .language-dot.swift { background: var(--accent-orange); }
 .language-dot.typescript { background: var(--accent-cyan); }
+.language-dot.python { background: #3572A5; }
+
+/* Tablet: 2 colunas (o mobile <=600px cai para 1 coluna mais abaixo) */
+@media (max-width: 1023px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
 .repo-action {
   align-self: flex-start;
@@ -2172,6 +2180,17 @@ button[type="submit"]:disabled {
   }
 }
 
+.modal-content p.modal-note {
+  margin: 14px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.modal-content p.modal-note[hidden] {
+  display: none;
+}
+
 .modal-repo-link {
   display: inline-flex;
   align-items: center;
@@ -2815,7 +2834,7 @@ kbd {
     animation-duration: 42s;
   }
   .projects-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

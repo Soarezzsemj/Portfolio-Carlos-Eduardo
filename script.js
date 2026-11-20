@@ -156,6 +156,7 @@ const modalTitle = document.getElementById("modal-title");
 const modalDesc = document.getElementById("modal-description");
 const modalTech = document.getElementById("modal-tech");
 const modalLink = document.getElementById("modal-link");
+const modalNote = document.getElementById("modal-note");
 const closeModal = document.querySelector(".close-modal");
 const lightbox = document.getElementById("image-lightbox");
 const lightboxImage = document.getElementById("lightbox-image");
@@ -174,6 +175,27 @@ function placeholderImg() {
 
 // Textos (título, descrição, tecnologias, alt) ficam em i18n.js: project.<chave>.*
 const projects = {
+  arremata: {
+    link: "https://github.com/Soarezzsemj/arremata",
+    liveLink: "https://arremata-lyart.vercel.app",
+    note: "project.arremata.note",
+    images: [
+      { src: "Arremata/capa.png", alt: "project.arremata.img.capa" },
+      { src: "Arremata/2.png", alt: "project.arremata.img.lote" },
+      { src: "Arremata/3.png", alt: "project.arremata.img.auditoria" }
+    ]
+  },
+  carscanner: {
+    link: "https://github.com/Soarezzsemj/Car-Scanner",
+    images: [
+      { src: "CarScanner/painel.png", alt: "project.carscanner.img.painel" },
+      { src: "CarScanner/painel_alerta.png", alt: "project.carscanner.img.alerta" },
+      { src: "CarScanner/modo_viagem.png", alt: "project.carscanner.img.viagem" },
+      { src: "CarScanner/diagnostico.png", alt: "project.carscanner.img.diagnostico" },
+      { src: "CarScanner/configuracoes.png", alt: "project.carscanner.img.config" },
+      { src: "CarScanner/painel_simulador.png", alt: "project.carscanner.img.simulador" }
+    ]
+  },
   korp: {
     link: "https://github.com/Soarezzsemj/Korp_Teste_CarlosEduardoSoares",
     images: [
@@ -222,6 +244,8 @@ function traduzirModal() {
   modalTitle.textContent = t(`project.${projetoAberto}.title`);
   modalDesc.textContent = t(`project.${projetoAberto}.desc`);
   modalTech.textContent = t("modal.tech", { tech: t(`project.${projetoAberto}.tech`) });
+  modalNote.textContent = project.note ? t(project.note) : "";
+  modalNote.hidden = !project.note;
 
   document.querySelectorAll("#modal-gallery .modal-gallery-item").forEach((item, index) => {
     const alt = t(project.images[index].alt);
